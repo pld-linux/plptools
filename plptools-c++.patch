@@ -1,0 +1,11 @@
+--- plptools-0.12/lib/psitime.cc.orig	Mon Aug  5 11:27:54 2002
++++ plptools-0.12/lib/psitime.cc	Wed Apr 23 11:04:08 2003
+@@ -63,7 +63,7 @@
+     psi2unix();
+ }
+ 
+-PsiTime::PsiTime(struct timeval *_utv, struct timezone *_utz = 0L) {
++PsiTime::PsiTime(struct timeval *_utv, struct timezone *_utz /* = 0L */) {
+     if (_utv != 0L)
+ 	utv = *_utv;
+     if (_utz != 0L)
