@@ -16,6 +16,7 @@ Patch2:		%{name}-assert.patch
 Patch3:		%{name}-kde.patch
 #Patch4:		%{name}-am_edit_fix.patch
 URL:		http://plptools.sourceforge.net/
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	fam-devel
 BuildRequires:	kdelibs-devel >= 2.1
@@ -23,10 +24,10 @@ BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
 BuildRequires:	newt-devel
-BuildRequires:	qt-st-devel
+BuildRequires:	perl-base
 BuildRequires:	readline-devel
+BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	sed >= 4.0
-BuildRequires:	/usr/bin/perl
 PreReq:		rc-scripts
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -85,7 +86,7 @@ pakiecie:
 Summary:	Header files for psion series 5 communication
 Summary(pl):	Pliki nag³ówkowe dla komunikacji z psionami serii 5
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains the header files for building programs which can
@@ -103,7 +104,7 @@ siê komunikowaæ z palmtopami Psion serii 5.
 Summary:	Static library for Psion series 5 communication
 Summary(pl):	Statyczna biblioteka do komunikacji z psionami serii 5
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 This package contains the static library for building statically
@@ -123,7 +124,10 @@ serii 5.
 Summary:	Psion support for KDE
 Summary(pl):	Obs³uga Psiona w KDE
 Group:		Applications/Communications
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
+Requires(preun):	/usr/bin/perl
+Requires(preun):	fileutils
+Requires(preun):	grep
 
 %description kde
 This package provides support for a new protocol prefix "psion:/" for
@@ -153,7 +157,7 @@ Psiona, a tak¿e ogólnych informacji o palmtopie.
 Summary:	Psion utility for KDE
 Summary(pl):	Narzêdzia do obs³ugi Psiona pod KDE
 Group:		Applications/Communications
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n kpsion
 This package contains a KDE utility program for backup, restore and
@@ -171,7 +175,7 @@ zapasowych, a tak¿e do formatowania dysków Psiona.
 Summary:	Psion remote clipboard utility for KDE
 Summary(pl):	Us³uga zdalnego schowka dla Psiona w KDE
 Group:		Applications/Communications
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n klipsi
 This package contains a KDE utility for using the Psion's remote
@@ -220,9 +224,7 @@ sed 's/lpr -Ppsion/lpr/' \
 
 
 %build
-
-( cd kde2/doc/pl && \
-	make -f Makefile.am index.docbook )
+%{__make} -C kde2/doc/pl -f Makefile.am index.docbook
 
 %{__libtoolize}
 %{__aclocal} -I conf/m4/plptools -I conf/m4/kde
@@ -230,24 +232,23 @@ sed 's/lpr -Ppsion/lpr/' \
 %{__automake}
 
 install %{SOURCE2} conf/am_edit
-perl conf/am_edit -pconf
+%{__perl} conf/am_edit -pconf
 
-kde_appsdir="%{_applnkdir}"; export kde_appsdir
-kde_htmldir="%{_htmldir}"; export kde_htmldir
-kde_icondir="%{_pixmapsdir}"; export kde_icondir
+kde_htmldir="%{_kdedocdir}"; export kde_htmldir
 %configure \
 	--enable-kde \
+	--enable-mt \
 	--with-qt-includes=/usr \
-	--with-initdir=%{_initrddir} \
+	--with-initdir=/etc/rc.d/init.d \
 	--with-kdedir=/usr \
-	--x-libraries=/usr/X11R6/lib \
+	--x-libraries=/usr/X11R6/%{_lib} \
 	%{?debug:--enable-debug}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_prefix},%{_initrddir},/etc/sysconfig}
+install -d $RPM_BUILD_ROOT{%{_prefix},/etc/rc.d/init.d,/etc/sysconfig}
 install -d $RPM_BUILD_ROOT/var/spool/plpprint
 
 %{__make} install \
@@ -255,7 +256,7 @@ install -d $RPM_BUILD_ROOT/var/spool/plpprint
 
 install conf/kiodoc-update.pl \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/kiodoc-update.pl
-install -m755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/psion
+install -m755 %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/psion
 
 cat>$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/psion<<EOF
 #
@@ -275,7 +276,7 @@ START_PLPPRINTD=no
 PLPPRINTD_ARGS=
 EOF
 
-install -d $RPM_BUILD_ROOT/mnt/psion
+#install -d $RPM_BUILD_ROOT/mnt/psion
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/doc/kde/HTML/{en,de,pl}/kpsion/index.docbook.in
 
@@ -292,7 +293,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 if [ "$1" != "0" -a -f /var/lock/subsys/psion ]; then
-	%{_initrddir}/psion stop >&2
+	/etc/rc.d/init.d/psion stop >&2
 	touch /var/lock/subsys/psion_was_started
 fi
 
@@ -300,7 +301,7 @@ fi
 /sbin/ldconfig
 /sbin/chkconfig --add psion
 if [ -f /var/lock/subsys/psion_was_started ]; then
-	%{_initrddir}/psion start >&2
+	/etc/rc.d/init.d/psion start >&2
 fi
 rm -f /var/lock/subsys/psion_was_started
 
@@ -309,7 +310,7 @@ perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
 %preun
 if [ "$1" = "0" ]; then
-	%{_initrddir}/psion stop >&2
+	/etc/rc.d/init.d/psion stop >&2
 	/sbin/chkconfig --del psion
 fi
 
@@ -336,7 +337,7 @@ if [ "$1" = "0" ]; then
 	/usr/bin/perl %{_datadir}/%{name}/kiodoc-update.pl -r psion
 	KONQRC=`kde-config --expandvars --install config`/konquerorrc
 	if test -f $KONQRC ; then
-		cp $KONQRC $KONQRC.$$
+		cp -f $KONQRC $KONQRC.$$
 		grep -v 'askSaveinode/x-psion-drive=' $KONQRC.$$ > $KONQRC && \
 		rm -f $KONQRC.$$
 	fi
@@ -352,10 +353,10 @@ fi
 %attr(755,root,root) %{_libdir}/libplp.so.*.*
 %{_datadir}/%{name}
 %exclude %{_datadir}/%{name}/kiodoc-update.pl
-%attr(754,root,root) %{_initrddir}/psion
+%attr(754,root,root) /etc/rc.d/init.d/psion
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/psion
 %{_mandir}/*/*
-%dir /mnt/psion
+#%dir /mnt/psion
 %dir /var/spool/plpprint
 
 %files devel
@@ -381,25 +382,25 @@ fi
 %{_pixmapsdir}/*/*/apps/psion*
 %{_datadir}/mimelnk/*/*
 %{_datadir}/%{name}/kiodoc-update.pl
-%lang(de) %{_datadir}/doc/kde/HTML/de/kioslave/psion.docbook
-%{_datadir}/doc/kde/HTML/en/kioslave/psion.docbook
-%lang(pl) %{_datadir}/doc/kde/HTML/pl/kioslave/psion.docbook
+%lang(de) %{_kdedocdir}/de/kioslave/psion.docbook
+%{_kdedocdir}/en/kioslave/psion.docbook
+%lang(pl) %{_kdedocdir}/pl/kioslave/psion.docbook
 
 %files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kpsion
 %attr(755,root,root) %{_libdir}/libkpsion.so.*
-%{_applnkdir}/*/kpsion*
+%{_desktopdir}/kpsion*
 %{_datadir}/apps/kpsion
 %{_datadir}/apps/konqueror/*
-%{_pixmapsdir}/*/*/apps/kpsion*
-%{_pixmapsdir}/*/*/actions/psion*
+%{_iconsdir}/*/*/apps/kpsion*
+%{_iconsdir}/*/*/actions/psion*
 
 %files -n klipsi -f klipsi.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/klipsi
 %attr(755,root,root) %{_libdir}/klipsi.so.*
-%{_applnkdir}/*/klipsi*
+%{_desktopdir}/klipsi*
 %{_datadir}/apps/klipsi
-%{_pixmapsdir}/*/*/apps/klipsi*
-%{_pixmapsdir}/*/*/actions/klipsi*
+%{_iconsdir}/*/*/apps/klipsi*
+%{_iconsdir}/*/*/actions/klipsi*
