@@ -287,7 +287,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc COPYING INSTALL CHANGES ChangeLog README TODO etc/*magic patches
+%doc CHANGES ChangeLog README TODO etc/*magic patches
 %attr(755,root,root) %{_bindir}/plpftp
 %attr(755,root,root) %{_bindir}/plpbackup
 %attr(755,root,root) %{_bindir}/sisinstall
