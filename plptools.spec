@@ -8,6 +8,7 @@ Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
 Patch0:		%{name}-rcscripts-doc-pl-fix.patch
+Patch1:		%{name}-c++.patch
 URL:		http://plptools.sourceforge.net/
 BuildRequires:	fam-devel
 BuildRequires:	kdelibs-devel >= 2.1
@@ -18,6 +19,8 @@ PreReq:		rc-scripts
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_htmldir	/usr/share/doc/kde/HTML
 
 %description
 This package contains the programs (client and server), necessary to
@@ -174,7 +177,8 @@ zwischen Psion und Rechner.
 
 %prep
 %setup -q
-%patch -p1
+%patch0 -p1
+%patch1 -p1
 cp -fpr kde2/doc/de/firstwizard-1.png kde2/doc/pl
 cp -fpr kde2/doc/de/firstwizard-2.png kde2/doc/pl
 cp -fpr kde2/doc/de/firstwizard-3.png kde2/doc/pl
@@ -190,6 +194,9 @@ cp -fpr kde2/doc/de/settings-machines.png kde2/doc/pl
 cp -fpr kde2/doc/de/toplevel.png kde2/doc/pl
 
 %build
+kde_appsdir="%{_applnkdir}"; export kde_appsdir
+kde_htmldir="%{_htmldir}"; export kde_htmldir
+kde_icondir="%{_pixmapsdir}"; export kde_icondir
 %configure2_13 \
 	--enable-kde \
 	--with-qt-includes=/usr \
@@ -228,10 +235,6 @@ PLPNFSD_ARGS=
 START_PLPPRINTD=no
 PLPPRINTD_ARGS=
 EOF
-
-mv -f $RPM_BUILD_ROOT{%{_datadir}/icons,%{_pixmapsdir}}
-install -d $RPM_BUILD_ROOT%{_docdir}
-mv -f $RPM_BUILD_ROOT{%{_datadir}/doc/HTML,%{_docdir}/kde/HTML}
 
 install -d $RPM_BUILD_ROOT/mnt/psion
 
@@ -323,8 +326,9 @@ fi
 %{_pixmapsdir}/*/*/apps/psion*
 %{_datadir}/mimelnk/*/*
 %{_datadir}/%{name}/kiodoc-update.pl
-# FIXME: use find_lang here (which name???)
-%{_datadir}/doc/kde/HTML/*/kioslave/*
+%lang(de) %{_datadir}/doc/kde/HTML/de/kioslave/psion.docbook
+%{_datadir}/doc/kde/HTML/en/kioslave/psion.docbook
+%lang(pl) %{_datadir}/doc/kde/HTML/pl/kioslave/psion.docbook
 
 %files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
