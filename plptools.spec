@@ -1,3 +1,6 @@
+# TODO: something with /mnt/psion path
+#       (apps must not mess in /mnt and rely on specific /mnt layout)
+#	(use /media instead?)
 Summary:	Connectivity for Psion series 5.
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
