@@ -195,21 +195,19 @@ szybkiego zabierania informacji "ze sob±" :).
 %patch2 -p1
 %patch3 -p1
 #%patch4 -p1
-cp -fpr kde2/doc/de/firstwizard-1.png kde2/doc/pl
-cp -fpr kde2/doc/de/firstwizard-2.png kde2/doc/pl
-cp -fpr kde2/doc/de/firstwizard-3.png kde2/doc/pl
-cp -fpr kde2/doc/de/newpsionwizard-1.png kde2/doc/pl
-cp -fpr kde2/doc/de/newpsionwizard-2.png kde2/doc/pl
-cp -fpr kde2/doc/de/psion_backup.png kde2/doc/pl
-cp -fpr kde2/doc/de/psion_restore.png kde2/doc/pl
-cp -fpr kde2/doc/de/restore-initial.png kde2/doc/pl
-cp -fpr kde2/doc/de/restore-treeopen.png kde2/doc/pl
-cp -fpr kde2/doc/de/settings-backup.png kde2/doc/pl
-cp -fpr kde2/doc/de/settings-connection.png kde2/doc/pl
-cp -fpr kde2/doc/de/settings-machines.png kde2/doc/pl
-cp -fpr kde2/doc/de/toplevel.png kde2/doc/pl
-
-%build
+cp -fpr kde2/doc/en/firstwizard-1.png kde2/doc/pl
+cp -fpr kde2/doc/en/firstwizard-2.png kde2/doc/pl
+cp -fpr kde2/doc/en/firstwizard-3.png kde2/doc/pl
+cp -fpr kde2/doc/en/newpsionwizard-1.png kde2/doc/pl
+cp -fpr kde2/doc/en/newpsionwizard-2.png kde2/doc/pl
+cp -fpr kde2/doc/en/psion_backup.png kde2/doc/pl
+cp -fpr kde2/doc/en/psion_restore.png kde2/doc/pl
+cp -fpr kde2/doc/en/restore-initial.png kde2/doc/pl
+cp -fpr kde2/doc/en/restore-treeopen.png kde2/doc/pl
+cp -fpr kde2/doc/en/settings-backup.png kde2/doc/pl
+cp -fpr kde2/doc/en/settings-connection.png kde2/doc/pl
+cp -fpr kde2/doc/en/settings-machines.png kde2/doc/pl
+cp -fpr kde2/doc/en/toplevel.png kde2/doc/pl
 
 #it does nothing, but brakes aclocal
 sed 's/AC_DIVERSION_NOTICE/0/' \
@@ -219,6 +217,12 @@ sed 's|^mkinstalldirs.*|mkinstalldirs = $(SHELL) $(top_srcdir)/conf/mkinstalldir
 
 sed 's/lpr -Ppsion/lpr/' \
 	-i plpprint/plpprintd.cc
+
+
+%build
+
+( cd kde2/doc/pl && \
+	make -f Makefile.am index.docbook )
 
 %{__libtoolize}
 %{__aclocal} -I conf/m4/plptools -I conf/m4/kde
@@ -273,6 +277,8 @@ EOF
 
 install -d $RPM_BUILD_ROOT/mnt/psion
 
+rm -f $RPM_BUILD_ROOT%{_datadir}/doc/kde/HTML/{en,de,pl}/kpsion/index.docbook.in
+
 %find_lang %{name}
 %find_lang libplpprops
 %find_lang kpsion --with-kde
@@ -281,18 +287,28 @@ install -d $RPM_BUILD_ROOT/mnt/psion
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+if [ "$1" != "0" -a -f /var/lock/subsys/psion ]; then
+	%{_initrddir}/psion stop >&2
+	touch /var/lock/subsys/psion_was_started
+fi
+
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add psion
+if [ -f /var/lock/subsys/psion_was_started ]; then
+	%{_initrddir}/psion start >&2
+fi
+rm -f /var/lock/subsys/psion_was_started
 
 %triggerin kde -- kdebase, kde-i18n-Polish
 perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
 %preun
-#if [ "$1" = "0" ]; then
+if [ "$1" = "0" ]; then
 	%{_initrddir}/psion stop >&2
-        /sbin/chkconfig --del psion
-#fi
+	/sbin/chkconfig --del psion
+fi
 
 %postun	-p /sbin/ldconfig
 
