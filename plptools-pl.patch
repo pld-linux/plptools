@@ -25,14 +25,9 @@ diff -Nur plptools-0.12.orig/kde2/doc/kioslave/Makefile.am plptools-0.12/kde2/do
 diff -Nur plptools-0.12.orig/kde2/doc/kioslave/pl/Makefile.am plptools-0.12/kde2/doc/kioslave/pl/Makefile.am
 --- plptools-0.12.orig/kde2/doc/kioslave/pl/Makefile.am	1970-01-01 01:00:00.000000000 +0100
 +++ plptools-0.12/kde2/doc/kioslave/pl/Makefile.am	2004-09-24 01:05:00.196804952 +0200
-@@ -0,0 +1,7 @@
+@@ -0,0 +1,2 @@
 +KDE_LANG = pl
-+kiodocdir = $(kde_libs_htmldir)/$(KDE_LANG)/kioslave
-+kiodoc_DATA = psion.docbook
-+EXTRA_DIST = $(kiodoc_DATA)
-+
-+maintainer-clean-local:
-+	rm -f Makefile.in
++KDE_DOCS = kioslave
 diff -Nur plptools-0.12.orig/kde2/doc/kioslave/pl/psion.docbook plptools-0.12/kde2/doc/kioslave/pl/psion.docbook
 --- plptools-0.12.orig/kde2/doc/kioslave/pl/psion.docbook	1970-01-01 01:00:00.000000000 +0100
 +++ plptools-0.12/kde2/doc/kioslave/pl/psion.docbook	2004-09-24 01:05:00.197803800 +0200
