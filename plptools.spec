@@ -12,17 +12,16 @@ Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
 # Source0-md5: 51738b3bd747a1c637cf333a8caf9292
 Source1:	%{name}.init
-Source2:	%{name}.am_edit
+Source2:	http://ep09.pld-linux.org/~djurban/kde/kde-common-admin.tar.bz2
 Patch0:		%{name}-pl.patch
-Patch1:		%{name}-c++.patch
-Patch2:		%{name}-assert.patch
-Patch3:		%{name}-kde.patch
-#Patch4:		%{name}-am_edit_fix.patch
+Patch1:                %{name}-cvs_fixes.patch
+Patch2:                %{name}-kde.patch
+Patch3:                %{name}-ac_am_fixes.patch
 URL:		http://plptools.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	fam-devel
-BuildRequires:	kdelibs-devel >= 2.1
+BuildRequires:	kdelibs-devel >= 9:3.2.0
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
@@ -31,6 +30,7 @@ BuildRequires:	perl-base
 BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	sed >= 4.0
+BuildRequires:	unsermake >= 040805
 PreReq:		rc-scripts
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -197,11 +197,13 @@ szybkiego zabierania informacji "ze sob±" :).
 
 %prep
 %setup -q
+rm -rf conf/CVS
+ln -s conf admin
+tar -jxf %{SOURCE2}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-#%patch4 -p1
 cp -fpr kde2/doc/en/firstwizard-1.png kde2/doc/pl
 cp -fpr kde2/doc/en/firstwizard-2.png kde2/doc/pl
 cp -fpr kde2/doc/en/firstwizard-3.png kde2/doc/pl
@@ -216,28 +218,23 @@ cp -fpr kde2/doc/en/settings-connection.png kde2/doc/pl
 cp -fpr kde2/doc/en/settings-machines.png kde2/doc/pl
 cp -fpr kde2/doc/en/toplevel.png kde2/doc/pl
 
-#it does nothing, but brakes aclocal
-sed 's/AC_DIVERSION_NOTICE/0/' \
-	-i conf/m4/plptools/PLP_HELP_MESSAGE.m4
-sed 's|^mkinstalldirs.*|mkinstalldirs = $(SHELL) $(top_srcdir)/conf/mkinstalldirs|' \
-	-i po/Makefile.in.in
-
 sed 's/lpr -Ppsion/lpr/' \
 	-i plpprint/plpprintd.cc
 
 
+find -name Makefile.in -exec rm "{}" ";"
+rm configure{.in,} po/Makefile.in.in
+mv {conf/,}configure.in.in
+
+touch intl/Makefile.am
+
 %build
 %{__make} -C kde2/doc/pl -f Makefile.am index.docbook
+cp -f /usr/share/automake/config.sub admin
+export UNSERMAKE=/usr/share/unsermake/unsermake
+export ACLOCALFLAGS="-I conf/m4/plptools -I conf/m4/kde"
+%{__make} -f admin/Makefile.common cvs
 
-%{__libtoolize}
-%{__aclocal} -I conf/m4/plptools -I conf/m4/kde
-%{__autoconf}
-%{__automake}
-
-install %{SOURCE2} conf/am_edit
-%{__perl} conf/am_edit -pconf
-
-kde_htmldir="%{_kdedocdir}"; export kde_htmldir
 %configure \
 	--enable-kde \
 	--enable-mt \
@@ -247,6 +244,10 @@ kde_htmldir="%{_kdedocdir}"; export kde_htmldir
 	--x-libraries=/usr/X11R6/%{_lib} \
 	%{?debug:--enable-debug}
 
+
+( cd doc; make ncpd.8 plpnfsd.8 plpprintd.8 \
+	plpftp.1 sisinstall.1 plpbackup.1 )
+
 %{__make}
 
 %install
@@ -255,7 +256,15 @@ install -d $RPM_BUILD_ROOT{%{_prefix},/etc/rc.d/init.d,/etc/sysconfig}
 install -d $RPM_BUILD_ROOT/var/spool/plpprint
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	kde_htmldir=%{_kdedocdir} \
+	kde_libs_htmldir=%{_kdedocdir} \
+	top_lib_pkgincludedir=%{_includedir}/%{name} \
+	top_plpprint_pkgdatadir=%{_datadir}/%{name} \
+	kde_icondir=%{_pixmapsdir} \
+	kde_appsdir=%{_applnkdir}
+
+rm -f doc/api/Makefile*
 
 install conf/kiodoc-update.pl \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/kiodoc-update.pl
