@@ -1,53 +1,23 @@
-Summary:	Connectivity for psion series 5.
-Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem.
+Summary:	Connectivity for Psion series 5.
+Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
 version:	0.12
 Release:	1
-Vendor:		The plptools project
-URL:		http://plptools.sourceforge.net/
-Source0:	http://download.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-Patch0:		%{name}-rcscripts-doc-pl-fix.patch
 License:	GPL
+Vendor:		The plptools project
 Group:		Networking/Utilities
-Buildrequires:	readline-devel
-Buildrequires:	newt-devel
-Buildrequires:	fam-devel
-Buildrequires:	kdelibs-devel >= 2.1
-Buildrequires:	glibc
-Buildrequires:	libstdc++-devel
-#Buildrequires: XFree86-doc
-
-%define _kdedir /usr/X11R6
-%define _qtdir /usr/X11R6/include/qt
-%define _kdebindir %{_kdedir}/bin
-%define _kdelibdir %{_kdedir}/lib
-%define _kdedatadir %{_kdedir}/share
-%define realrelease %{Release}%{distro}
-
-
-#
-# Conditionals
-#
-%{?_without_distro:%define realrelease %{Release}}
-%{?_with_debug:%define __spec_install_post /usr/lib/rpm/brp-compress}
-%{?_with_debug:%define _with_debug --enable-debug}
-%{?_with_debug:%define optflags -g}
-%{!?_with_debug:%define _with_debug --disable-debug}
-
-Requires:	chkconfig >= 0.9
+Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
+Patch0:		%{name}-rcscripts-doc-pl-fix.patch
+URL:		http://plptools.sourceforge.net/
+BuildRequires:	fam-devel
+BuildRequires:	kdelibs-devel >= 2.1
+BuildRequires:	libstdc++-devel
+BuildRequires:	newt-devel
+BuildRequires:	readline-devel
+PreReq:		rc-scripts
+Requires(post):	/sbin/ldconfig
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%package devel
-Summary:	Static library and includes for psion series 5 communication.
-Summary(pl):	Statyczne biblioteki i pliki include dla komunikacji z psionami serii 5.
-Group:		Development/Libraries
-Requires:	%{name} = %{version}
-
-%package kde
-Summary:	Psion support for KDE.
-Summary(pl):	Obs³uga Psiona w KDE.
-Group:		Applications/Communications
-Requires:	%{name} = %{version}
 
 %description
 This package contains the programs (client and server), necessary to
@@ -62,47 +32,6 @@ are:
  - plpprintd, a daemon for enabling printing from a Psion Series 5 via
    any accessible printer.
  - sisinstall, an installer for Psion's SIS software package format.
-
-%description devel
-This package contains the static library and include files for
-building programs which can communicate with a Psion palmtop.
-
-%description kde
-This package provides support for a new protocol prefix "psion:/" for
-KDE. Any KDE application which uses KDE-conforming URLs, can access
-files on the Psion. Furthermore, a plugin for Konqueror's
-file-properties dialog provides access to Psions proprietary file
-attributes and information about the Psion's drives as well as generic
-machine information.
-
-%description -l pl
-Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
-komunikacji z palmtopami Psiona (seria 5). System plików Psiona bêdzie
-automatycznie mountowany w katalogu /mnt/psion w momencie po³o¿enia na
-podstawce (craddle). Je¶li Psion zostanie wy³±czony, albo roz³±czony,
-zawarto¶æ /mnt/psion automatycznie zniknie. Programy zawarte w
-pakiecie:
- - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
-   ftp na transfer plików, przegl±danie i modyfikacjê procesów dzia³aj±-
-   cych na Psionie.
- - plpbackup - narzêdzie do robienia kopii zapasowych (i ich
-   przywracania)
- - plpprintd - daemon umo¿liwiaj±cy drukowanie z Psiona na dowolnej
-   dostêpnej w systemie drukarce.
- - sisinstall - narzêdzie umo¿liwiaj±ce instalacjê oprogramowania
-   dostêpnego w formacie SIS.
-
-%description devel -l pl
-Ten pakiet zawiera statyczne biblioteki i pliki include do budowania
-programów, które mog± siê komunikowaæ z palmtopami Psion serii 5.
-
-%description kde -l pl
-Ten pakiet udostêpnia wsparcie dla nowego protoko³u "psion:/" dla
-¶rodowiska KDE. Dowolna aplikacja KDE, która u¿ywa zgodnych z KDE
-adresów URL, mo¿e uzyskiwaæ dostêp do plików na Psionie. Ponadto
-plugin dla okienka w³a¶ciwo¶ci Konquerora daje mo¿liwo¶æ korzystania z
-natywnych dla Psiona atrybutów systemu plików informacji o dyskach
-Psiona, a tak¿e ogólnych informacji o Palmtopie.
 
 %description -l de
 Dieses Packet enthält Programme zur Kommunikation mit einem Psion
@@ -120,9 +49,73 @@ enthalten:
  - sisinstall, ein Installationsprogramm für das Psion-eigene SIS
    packetformat.
 
+%description -l pl
+Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
+komunikacji z palmtopami Psiona (seria 5). System plików Psiona bêdzie
+automatycznie mountowany w katalogu /mnt/psion w momencie po³o¿enia na
+podstawce (craddle). Je¶li Psion zostanie wy³±czony albo roz³±czony,
+zawarto¶æ /mnt/psion automatycznie zniknie. Programy zawarte w
+pakiecie:
+ - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
+   ftp na transfer plików, przegl±danie i modyfikacjê procesów
+   dzia³aj±cych na Psionie,
+ - plpbackup - narzêdzie do robienia kopii zapasowych (i ich
+   przywracania),
+ - plpprintd - demon umo¿liwiaj±cy drukowanie z Psiona na dowolnej
+   dostêpnej w systemie drukarce,
+ - sisinstall - narzêdzie umo¿liwiaj±ce instalacjê oprogramowania
+   dostêpnego w formacie SIS.
+
+%package devel
+Summary:	Header files for psion series 5 communication
+Summary(pl):	Pliki nag³ówkowe dla komunikacji z psionami serii 5
+Group:		Development/Libraries
+Requires:	%{name} = %{version}
+
+%description devel
+This package contains the header files for building programs which can
+communicate with a Psion palmtop.
+
 %description devel -l de
-Dieses Packet enthält die statische Bibliothek und include-Dateien zur
+Dieses Packet enthält die include-Dateien zur Programm-Entwicklung von
+Kommunikations-software für den Psion.
+
+%description devel -l pl
+Ten pakiet zawiera pliki nag³ówkowe do budowania programów, które mog±
+siê komunikowaæ z palmtopami Psion serii 5.
+
+%package static
+Summary:	Static library for Psion series 5 communication
+Summary(pl):	Statyczna biblioteka do komunikacji z psionami serii 5
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}
+
+%description static
+This package contains the static library for building statically
+linked programs which can communicate with a Psion palmtop.
+
+%description static -l de
+Dieses Packet enthält die statische Bibliothek zur
 Programm-Entwicklung von Kommunikations-software für den Psion.
+
+%description static -l pl
+Ten pakiet zawiera statyczne biblioteki do budowania statycznie
+linkowanych programów, które mog± siê komunikowaæ z palmtopami Psion
+serii 5.
+
+%package kde
+Summary:	Psion support for KDE
+Summary(pl):	Obs³uga Psiona w KDE
+Group:		Applications/Communications
+Requires:	%{name} = %{version}
+
+%description kde
+This package provides support for a new protocol prefix "psion:/" for
+KDE. Any KDE application which uses KDE-conforming URLs, can access
+files on the Psion. Furthermore, a plugin for Konqueror's
+file-properties dialog provides access to Psions proprietary file
+attributes and information about the Psion's drives as well as generic
+machine information.
 
 %description kde -l de
 Dieses Packet stellt Unterstützung für eine neues Protokoll-Präfix
@@ -132,30 +125,36 @@ liefert ein Plugin für Konqueror's Datei-Eigenschaften-Dialog
 Informationen über proprietäre Psion-Dateiattribute und stellt
 Informationen zum Gerät sowie seiner Laufwerke zur Verfügung.
 
+%description kde -l pl
+Ten pakiet dodaje obs³ugê dla nowego protoko³u "psion:/" dla
+¶rodowiska KDE. Dowolna aplikacja KDE, która u¿ywa zgodnych z KDE
+adresów URL, mo¿e uzyskiwaæ dostêp do plików na Psionie. Ponadto
+wtyczka dla okienka w³a¶ciwo¶ci Konquerora daje mo¿liwo¶æ korzystania
+z natywnych dla Psiona atrybutów systemu plików, informacji o dyskach
+Psiona, a tak¿e ogólnych informacji o palmtopie.
+
 %package -n kpsion
-Summary:	Psion utility for KDE.
-Summary(pl):	Narzêdzia do obs³ugi Psiona pod KDE.
-Group:		User Interface/Desktops
-######		Unknown group!
+Summary:	Psion utility for KDE
+Summary(pl):	Narzêdzia do obs³ugi Psiona pod KDE
+Group:		Applications/Communications
 Requires:	%{name} = %{version}
 
 %description -n kpsion
 This package contains a KDE utility program for backup, restore and
 formatting Psion drives.
 
-%description -n kpsion -l pl
-Ten pakiet zawiera narzêdzia dla KDE do robienia i odzyskiwania kopii
-zapasowych, a tak¿e do formatowania dysków Psiona.
-
 %description -n kpsion -l de
 Dieses Packet enthält ein KDE Werkzeug zum Backup, Restore und
 Formatieren von Psion Laufwerken.
 
+%description -n kpsion -l pl
+Ten pakiet zawiera narzêdzia dla KDE do robienia i odzyskiwania kopii
+zapasowych, a tak¿e do formatowania dysków Psiona.
+
 %package -n klipsi
-Summary:	Psion remote clipboard utility for KDE.
-Summary(pl):	Us³uga zdalnego schowka dla Psiona w KDE.
-Group:		User Interface/Desktops
-######		Unknown group!
+Summary:	Psion remote clipboard utility for KDE
+Summary(pl):	Us³uga zdalnego schowka dla Psiona w KDE
+Group:		Applications/Communications
 Requires:	%{name} = %{version}
 
 %description -n klipsi
@@ -169,14 +168,12 @@ w Psionie wkleiæ przez ^V, a co w psionie skopiujesz przez ^C, mo¿esz
 w kde wklejaæ przez kombinacjê ^C, czyli CTRL-C ;-) Miodna sprawa do
 szybkiego zabierania informacji "ze sob±" :).
 
-
 %description -n klipsi -l de
 Dieses Packet enthält ein KDE Werkzeug zum Transfer der Zwischenablage
 zwischen Psion und Rechner.
 
 %prep
 %setup -q
-#chmod +w -R *
 %patch -p1
 cp -fpr kde2/doc/de/firstwizard-1.png kde2/doc/pl
 cp -fpr kde2/doc/de/firstwizard-2.png kde2/doc/pl
@@ -192,28 +189,28 @@ cp -fpr kde2/doc/de/settings-connection.png kde2/doc/pl
 cp -fpr kde2/doc/de/settings-machines.png kde2/doc/pl
 cp -fpr kde2/doc/de/toplevel.png kde2/doc/pl
 
-cat<<EOF>find-requires
-#!/bin/sh
-%{__find_requires} "$@" |egrep -v 'libGL|freetype'
-EOF
-chmod a+x find-requires
-%define __find_requires %{_builddir}/%{buildsubdir}/find-requires
-%define __libtoolize true
-
 %build
-%configure2_13 --enable-kde --with-qt-includes=%{_qtdir} --with-initdir=%{_initrddir} --with-kdedir=%{_prefix}/X11R6 --x-libraries=%{_prefix}/X11R6/lib/ %{_with_debug}
+%configure2_13 \
+	--enable-kde \
+	--with-qt-includes=/usr \
+	--with-initdir=%{_initrddir} \
+	--with-kdedir=/usr \
+	--x-libraries=/usr/X11R6/lib \
+	%{?debug:--enable-debug}
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_prefix} $RPM_BUILD_ROOT%{_initrddir} \
-# rpm's makeinstall doesn't work here!
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
+install -d $RPM_BUILD_ROOT{%{_prefix},%{_initrddir},/etc/sysconfig}
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
 install conf/kiodoc-update.pl \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/kiodoc-update.pl
 install -m755 etc/psion.PLD $RPM_BUILD_ROOT%{_initrddir}/psion
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+
 cat>$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/psion<<EOF
 #
 # Use program --help to get more help about options,
@@ -232,39 +229,41 @@ START_PLPPRINTD=no
 PLPPRINTD_ARGS=
 EOF
 
-cd $RPM_BUILD_ROOT%{_prefix}/X11R6/share
-mv icons pixmaps
-cd $OLDPWD
+mv -f $RPM_BUILD_ROOT{%{_datadir}/icons,%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT%{_docdir}
+mv -f $RPM_BUILD_ROOT{%{_datadir}/doc/HTML,%{_docdir}/kde/HTML}
 
-cd $RPM_BUILD_ROOT%{_prefix}/X11R6/share/doc/HTML
-install -d $RPM_BUILD_ROOT%{_datadir}/doc/kde
-cp -fpr * ../../../../share/doc/kde/HTML/
-rm -rf *
+install -d $RPM_BUILD_ROOT/mnt/psion
 
-cd $OLDPWD
-
+%find_lang %{name}
+%find_lang libplpprops
+%find_lang kpsion --with-kde
+%find_lang klipsi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-ldconfig
-test ! -d /mnt/psion && mkdir -p /mnt/psion
+/sbin/ldconfig
 /sbin/chkconfig --add psion
 
 %triggerin kde -- kdebase, kde-i18n-Polish
 perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
-export PATH=%{_kdebindir}:$PATH
-perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
+%preun
+if [ "$1" = "0" ]; then
+	%{_initrddir}/psion stop >&2
+        /sbin/chkconfig --del psion
+fi
+
+%postun	-p /sbin/ldconfig
 
 %post kde
-export PATH=%{_kdebindir}:$PATH
-KONQRC=`%{_kdebindir}/kde-config --expandvars --install config`/konquerorrc
+KONQRC=`kde-config --expandvars --install config`/konquerorrc
 if test -f $KONQRC && grep -q '\[Notification Messages\]' $KONQRC ; then
         cp $KONQRC $KONQRC.$$
         cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=No" | sed \
-                -e '/\[Notification Messages\]/a\' \
+                -e '/\[Notification Messages\]/a' \
                 -e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
         rm -f $KONQRC.$$
 else
@@ -275,17 +274,8 @@ askSaveinode/x-psion-drive=No
 EOF
 fi
 
-%preun
-if [ "$1" = 0 ]
-then
-	%{_initrddir}/psion stop >/dev/null 2>&1
-        /sbin/chkconfig --del psion
-fi
-
 %preun kde
-export PATH=%{_kdebindir}:$PATH
-if [ "$1" = 0 ]
-then
+if [ "$1" = "0" ]; then
 	/usr/bin/perl %{_datadir}/%{name}/kiodoc-update.pl -r psion
 	KONQRC=`kde-config --expandvars --install config`/konquerorrc
 	if test -f $KONQRC ; then
@@ -295,63 +285,64 @@ then
 	fi
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc COPYING INSTALL CHANGES ChangeLog README TODO etc/*magic patches
 %attr(755,root,root) %{_bindir}/plpftp
 %attr(755,root,root) %{_bindir}/plpbackup
 %attr(755,root,root) %{_bindir}/sisinstall
 %attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_libdir}/libplp.so.*.*
+%{_datadir}/%{name}
+%exclude %{_datadir}/%{name}/kiodoc-update.pl
+%attr(754,root,root) %{_initrddir}/psion
+%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/psion
 %{_mandir}/*/*
-%{_libdir}/libplp.so.*
-%{_libdir}/libplp.la
-%{_datadir}/locale/*/LC_MESSAGES/plptools.mo
-%{_datadir}/%{name}/*
-%{_initrddir}/psion
-%config %{_sysconfdir}/sysconfig/psion
+%dir /mnt/psion
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc/api etc/*.spec
+%attr(755,root,root) %{_libdir}/libplp.so
+%{_libdir}/libplp.la
+%{_includedir}/%{name}
+
+%files static
+%defattr(644,root,root,755)
 %{_libdir}/libplp.a
-%{_libdir}/libplp.so
-%{_includedir}/%{name}/*
 
-%files kde
+%files kde -f libplpprops.lang
 %defattr(644,root,root,755)
-%{_kdelibdir}/kde*/kio_plp.so*
-%{_kdelibdir}/kde*/kio_plp.la
-%{_kdelibdir}/kde*/libplpprops.so*
-%{_kdelibdir}/kde*/libplpprops.la
-%{_kdedatadir}/services/*
-%{_kdedatadir}/pixmaps/*/*/mimetypes/*
-%{_kdedatadir}/pixmaps/*/*/devices/*
-%{_kdedatadir}/pixmaps/*/*/apps/psion*
-%{_kdedatadir}/locale/*/LC_MESSAGES/libplpprops.mo
-%{_kdedatadir}/mimelnk/*/*
-%{_datadir}/doc/kde/HTML/*/kioslave/*
+%attr(755,root,root) %{_libdir}/kde*/kio_plp.so*
+%{_libdir}/kde*/kio_plp.la
+%attr(755,root,root) %{_libdir}/kde*/libplpprops.so*
+%{_libdir}/kde*/libplpprops.la
+%{_datadir}/services/*
+%{_pixmapsdir}/*/*/mimetypes/*
+%{_pixmapsdir}/*/*/devices/*
+%{_pixmapsdir}/*/*/apps/psion*
+%{_datadir}/mimelnk/*/*
 %{_datadir}/%{name}/kiodoc-update.pl
+# FIXME: use find_lang here (which name???)
+%{_datadir}/doc/kde/HTML/*/kioslave/*
 
-%files -n kpsion
+%files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
-%{_kdebindir}/kpsion
-%{_kdelibdir}/libkpsion.so*
-%{_kdelibdir}/libkpsion.la
-%{_kdedatadir}/applnk/*/kpsion*
-%{_kdedatadir}/apps/kpsion/*
-%{_kdedatadir}/apps/konqueror/*
-%{_kdedatadir}/pixmaps/*/*/apps/kpsion*
-%{_kdedatadir}/pixmaps/*/*/actions/psion*
-%{_kdedatadir}/locale/*/LC_MESSAGES/kpsion.mo
-%{_datadir}/doc/kde/HTML/*/kpsion
+%attr(755,root,root) %{_bindir}/kpsion
+%attr(755,root,root) %{_libdir}/libkpsion.so*
+%{_libdir}/libkpsion.la
+%{_applnkdir}/*/kpsion*
+%{_datadir}/apps/kpsion
+%{_datadir}/apps/konqueror/*
+%{_pixmapsdir}/*/*/apps/kpsion*
+%{_pixmapsdir}/*/*/actions/psion*
 
-%files -n klipsi
+%files -n klipsi -f klipsi.lang
 %defattr(644,root,root,755)
-%{_kdebindir}/klipsi
-%{_kdelibdir}/klipsi.so*
-%{_kdelibdir}/klipsi.la
-%{_kdedatadir}/applnk/*/klipsi*
-%{_kdedatadir}/apps/klipsi/*
-%{_kdedatadir}/pixmaps/*/*/apps/klipsi*
-%{_kdedatadir}/pixmaps/*/*/actions/klipsi*
-%{_kdedatadir}/locale/*/LC_MESSAGES/klipsi.mo
+%attr(755,root,root) %{_bindir}/klipsi
+%attr(755,root,root) %{_libdir}/klipsi.so*
+%{_libdir}/klipsi.la
+%{_applnkdir}/*/klipsi*
+%{_datadir}/apps/klipsi
+%{_pixmapsdir}/*/*/apps/klipsi*
+%{_pixmapsdir}/*/*/actions/klipsi*
