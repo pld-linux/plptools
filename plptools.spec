@@ -242,6 +242,7 @@ export ACLOCALFLAGS="-I conf/m4/plptools -I conf/m4/kde"
 	--enable-kde \
 	--enable-mt \
 	--with-qt-includes=/usr \
+	--with-qt-libraries=%{_libdir} \
 	--with-initdir=/etc/rc.d/init.d \
 	--with-kdedir=/usr \
 	--with-mountdir=/media/psion \
