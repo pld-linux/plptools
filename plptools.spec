@@ -7,7 +7,7 @@ License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-# Source0-md5: 51738b3bd747a1c637cf333a8caf9292
+# Source0-md5:	51738b3bd747a1c637cf333a8caf9292
 Patch0:		%{name}-rcscripts-doc-pl-fix.patch
 Patch1:		%{name}-c++.patch
 URL:		http://plptools.sourceforge.net/
