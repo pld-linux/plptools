@@ -10,13 +10,14 @@ License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-# Source0-md5: 51738b3bd747a1c637cf333a8caf9292
+# Source0-md5:	51738b3bd747a1c637cf333a8caf9292
 Source1:	%{name}.init
 Source2:	http://ep09.pld-linux.org/~djurban/kde/kde-common-admin.tar.bz2
+# Source2-md5:	81e0b2f79ef76218381270960ac0f55f
 Patch0:		%{name}-pl.patch
-Patch1:                %{name}-cvs_fixes.patch
-Patch2:                %{name}-kde.patch
-Patch3:                %{name}-ac_am_fixes.patch
+Patch1:		%{name}-cvs_fixes.patch
+Patch2:		%{name}-kde.patch
+Patch3:		%{name}-ac_am_fixes.patch
 URL:		http://plptools.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -332,11 +333,11 @@ fi
 %post kde
 KONQRC=`kde-config --expandvars --install config`/konquerorrc
 if test -f $KONQRC && grep -q '\[Notification Messages\]' $KONQRC ; then
-        cp $KONQRC $KONQRC.$$
-        cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=No" | sed \
-                -e '/\[Notification Messages\]/a\' \
-                -e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
-        rm -f $KONQRC.$$
+	cp $KONQRC $KONQRC.$$
+	cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=No" | sed \
+		-e '/\[Notification Messages\]/a\' \
+		-e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
+	rm -f $KONQRC.$$
 else
 cat>>$KONQRC<<EOF
 
