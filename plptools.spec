@@ -221,6 +221,8 @@ sed -n '/u_int64_t/!p' \
 	-i include/plp_inttypes.h
 sed 's/lpr -Ppsion/lpr/' \
 	-i plpprint/plpprintd.cc
+sed 's/^defaultMimetype=.*$/defaultMimetype=application\/octet-stream/' \
+	-i kde2/kioslave/psion.protocol
 
 
 find -name Makefile.in -exec rm "{}" ";"
