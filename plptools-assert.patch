@@ -1,0 +1,10 @@
+--- plptools-0.12/lib/Enum.h.orig	2004-06-28 17:25:52.444060736 +0200
++++ plptools-0.12/lib/Enum.h	2004-06-28 17:26:00.591822088 +0200
+@@ -31,6 +31,7 @@
+ 
+ #include <map>
+ #include <string>
++#include <assert.h>
+ 
+ /**
+  * the Base for the Enum template.

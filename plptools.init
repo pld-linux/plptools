@@ -1,0 +1,120 @@
+#!/bin/sh
+#
+# psion        Starts ncpd/plpnfsd.
+#
+# chkconfig: 2345 45 10
+# description: This facility enables connectivity to a Psion series 5.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+[ -f /usr/sbin/ncpd ] || exit 0
+[ -f /usr/sbin/plpnfsd ] || exit 0
+[ -f /usr/sbin/plpprintd ] || exit 0
+[ -f /etc/sysconfig/psion ] || exit 0
+. /etc/sysconfig/psion
+
+
+start() {
+	RETVAL=0
+	if is_yes "$START_NCPD" ; then
+		if [ ! -f /var/lock/subsys/psion.ncpd ]; then
+			msg_starting "Psion ncpd"
+			daemon /usr/sbin/ncpd $NCPD_ARGS
+			RETVAL=$?
+			[ $RETVAL -eq 0 ] && touch /var/lock/subsys/psion.ncpd
+		else
+			msg_already_running "Psion ncpd"
+		fi
+	fi
+	if [ $RETVAL -eq 0 ] ; then
+		RETVAL1=0; RETVAL2=0
+		if is_yes "$START_PLPNFSD" ; then
+			if [ ! -f /var/lock/subsys/psion.nfsd ]; then
+				msg_starting "Psion plpnfsd"
+				daemon /usr/sbin/plpnfsd $PLPNFSD_ARGS
+				RETVAL1=$?
+				[ $RETVAL1 -eq 0 ] && touch /var/lock/subsys/psion.nfsd
+			else
+				msg_already_running "Psion plpnfsd"
+			fi
+		fi
+		if is_yes "$START_PLPPRINTD" ; then
+			if [ ! -f /var/lock/subsys/psion.printd ]; then
+				msg_starting "Psion plpprintd"
+				daemon /usr/sbin/plpprintd $PLPPRINTD_ARGS
+				RETVAL2=$?
+				[ $RETVAL2 -eq 0 ] && touch /var/lock/subsys/psion.printd
+			else
+				msg_already_running "Psion plpprintd"
+			fi
+		fi
+		RETVAL=$(($RETVAL1+$RETVAL2))
+	fi
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/psion
+	return $RETVAL
+}
+
+stop() {
+	RETVAL=0
+	if [ -f /var/lock/subsys/psion.nfsd ]; then
+		msg_stopping "Psion plpnfsd"
+		killproc plpnfsd -HUP
+		WAIT=5
+		while test $WAIT -gt 0 ; do
+			test -z "`pidofproc plpnfsd`" && break;
+			sleep 1 # allow plpnfsd flushing it's cache
+			WAIT=`expr $WAIT - 1`
+		done
+		test -z "`pidofproc plpnfsd`" || killproc plpnfsd
+	else
+		is_yes "$START_PLPNFSD" && msg_not_running "Psion plpnfsd"
+	fi
+	if [ -f /var/lock/subsys/psion.printd ]; then
+		msg_stopping "Psion plpprintd"
+		killproc plpprintd
+	else
+		is_yes "$START_PLPPRINTD" && msg_not_running "Psion plpprintd"
+	fi
+	if [ -f /var/lock/subsys/psion.ncpd ] ; then
+		msg_stopping "Psion ncpd"
+		killproc ncpd
+		RETVAL=$?
+	else
+		is_yes "$START_NCPD" && msg_not_running "Psion ncpd"
+	fi
+	rm -f /var/lock/subsys/psion{,.ncpd,.printd,.nfsd}
+	return $RETVAL
+}
+
+restart() {
+	stop
+	start
+}
+
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  status)
+	status ncpd
+	status plpnfsd
+	status plpprintd
+	;;
+  restart|reload)
+  	restart
+	;;
+  condrestart)
+  	test -f /var/lock/subsys/psion && restart || :
+	;;
+  *)
+	echo "Usage: psion {start|stop|status|restart|reload|condrestart}"
+	exit 1
+esac
+
+exit $?
+

@@ -1,0 +1,805 @@
+diff -Nur plptools-0.12.orig/configure.in plptools-0.12/configure.in
+--- plptools-0.12.orig/configure.in	2003-02-04 11:26:52.000000000 +0100
++++ plptools-0.12/configure.in	2004-09-24 01:05:00.194807256 +0200
+@@ -338,9 +338,11 @@
+ 	kde2/doc/Makefile
+ 	kde2/doc/en/Makefile
+ 	kde2/doc/de/Makefile
++	kde2/doc/pl/Makefile
+ 	kde2/doc/kioslave/Makefile
+ 	kde2/doc/kioslave/de/Makefile
+ 	kde2/doc/kioslave/en/Makefile
++	kde2/doc/kioslave/pl/Makefile
+ 	plpbackup/Makefile
+ 	plpprint/Makefile
+ 	plpprint/prolog.ps
+diff -Nur plptools-0.12.orig/kde2/doc/kioslave/Makefile.am plptools-0.12/kde2/doc/kioslave/Makefile.am
+--- plptools-0.12.orig/kde2/doc/kioslave/Makefile.am	2002-08-10 21:13:51.000000000 +0200
++++ plptools-0.12/kde2/doc/kioslave/Makefile.am	2004-09-24 01:05:00.195806104 +0200
+@@ -1,4 +1,4 @@
+-SUBDIRS = en de
++SUBDIRS = en de pl
+ 
+ maintainer-clean-local:
+ 	rm -f Makefile.in
+diff -Nur plptools-0.12.orig/kde2/doc/kioslave/pl/Makefile.am plptools-0.12/kde2/doc/kioslave/pl/Makefile.am
+--- plptools-0.12.orig/kde2/doc/kioslave/pl/Makefile.am	1970-01-01 01:00:00.000000000 +0100
++++ plptools-0.12/kde2/doc/kioslave/pl/Makefile.am	2004-09-24 01:05:00.196804952 +0200
+@@ -0,0 +1,7 @@
++KDE_LANG = pl
++kiodocdir = $(kde_libs_htmldir)/$(KDE_LANG)/kioslave
++kiodoc_DATA = psion.docbook
++EXTRA_DIST = $(kiodoc_DATA)
++
++maintainer-clean-local:
++	rm -f Makefile.in
+diff -Nur plptools-0.12.orig/kde2/doc/kioslave/pl/psion.docbook plptools-0.12/kde2/doc/kioslave/pl/psion.docbook
+--- plptools-0.12.orig/kde2/doc/kioslave/pl/psion.docbook	1970-01-01 01:00:00.000000000 +0100
++++ plptools-0.12/kde2/doc/kioslave/pl/psion.docbook	2004-09-24 01:05:00.197803800 +0200
+@@ -0,0 +1,32 @@
++<article lang="&language;" id="psion">
++<title>psion</title>
++<articleinfo>
++<authorgroup>
++<author><firstname>Fritz</firstname><surname>Elfert</surname>
++<affiliation><address><email>felfert@users.sourceforge.net</email></address></affiliation>
++</author>
++</authorgroup>
++</articleinfo>
++
++<para>
++Psion ioslave umo�liwia ci przegl�danie dysk�w podpi�tych palmtop�w Psiona.
++</para>
++
++<para>
++To see the drives of a Psion, enter
++</para>
++<para><userinput><command>psion:/</command></userinput></para>
++<para>
++or (if the Psion is connected at a remote machine)
++</para>
++<para><userinput><command>psion://</command><replaceable>host/</replaceable></userinput>.</para>
++
++<para>
++The psion ioslave connects to a Psion using the ncpd daemon. Therefore,
++this daemon must be running on the machine. The psion ioslave, the daemon
++as well as other tools for Psion connectivity are part of the plptools
++package. This package is available at <ulink url="http://plptools.sourceforge.net/"
++>http://plptools.sourceforge.net/</ulink>.
++</para>
++
++</article>
+diff -Nur plptools-0.12.orig/kde2/doc/Makefile.am plptools-0.12/kde2/doc/Makefile.am
+--- plptools-0.12.orig/kde2/doc/Makefile.am	2002-08-10 21:13:35.000000000 +0200
++++ plptools-0.12/kde2/doc/Makefile.am	2004-09-24 01:05:47.194601048 +0200
+@@ -1,4 +1,4 @@
+-SUBDIRS = en de kioslave
++SUBDIRS = en de pl kioslave
+ 
+ maintainer-clean-local:
+ 	rm -f Makefile.in
+diff -Nur plptools-0.12.orig/kde2/doc/pl/index.docbook.in plptools-0.12/kde2/doc/pl/index.docbook.in
+--- plptools-0.12.orig/kde2/doc/pl/index.docbook.in	1970-01-01 01:00:00.000000000 +0100
++++ plptools-0.12/kde2/doc/pl/index.docbook.in	2004-09-24 01:05:00.203796888 +0200
+@@ -0,0 +1,706 @@
++<?xml version="1.0" ?>
++<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
++  <!ENTITY kpsion  "<application>KPsion</application>">
++  <!ENTITY kappname "&kpsion;">
++  <!ENTITY % addindex "IGNORE">
++  <!ENTITY % Polish "INCLUDE">
++  <!-- DO NOT DELETE! $Revision$ -->
++  <!-- DO NOT DELETE! $Date$ -->
++]>
++
++<book lang="&language;">
++<bookinfo>
++
++<title>Podręcznik &kpsion;</title>
++
++<authorgroup>
++<author>
++<firstname>Fritz</firstname>
++<surname>Elfert</surname>
++<affiliation>
++<address><email>felfert@to.com</email></address>
++</affiliation>
++</author>
++
++
++<othercredit role="reviewer">
++<firstname>Michał</firstname>
++<surname>Cieślicki</surname>
++<affiliation>
++<address><email>yoshi@aip.pl</email></address>
++</affiliation>
++<contrib>Reviewer</contrib>
++</othercredit>
++
++</authorgroup>
++
++<copyright>
++<year>2001</year>
++<holder>Fritz Elfert</holder>
++</copyright>
++
++<legalnotice>&FDLNotice;</legalnotice>
++
++<date>__DATE__</date>
++<releaseinfo>__VERSION__</releaseinfo>
++
++
++<abstract><para>
++&kpsion; jest aplikacją przeznaczonią do robienia kopii bezpieczeństwa i ich 
++odzyskiwania, a także formatowania dysków na palmtopach Psion.
++</para></abstract>
++
++<keywordset>
++<keyword>KDE</keyword>
++<keyword>plptools</keyword>
++<keyword>KPsion</keyword>
++<keyword>Psion</keyword>
++<keyword>EPOC</keyword>
++<keyword>PDA</keyword>
++<keyword>backup</keyword>
++<keyword>restore</keyword>
++<keyword>format</keyword>
++</keywordset>
++
++</bookinfo>
++
++<chapter id="Introduction">
++<title>Wprowadzenie</title>
++
++<para>
++Witaj w &kpsion;! &kpsion; jest aplikacją przeznaczoną do robienia kopii danych
++i ich odzyskiwania, a także do formatowania dysków palmtopów Psion przeznaczoną
++dla środowiska K Desktop Environment. Do działania wykorzystywany jest
++daemon <command>ncpd</command> i biblioteki z pakietu plptools.
++</para>
++
++<para>Ten program powinien być uruchamiany albo z linii poleceń, albo poprzez 
++pliki typu <filename>.desktop</filename>.
++</para>
++
++</chapter>
++
++<chapter id="installation">
++<title>Instalacja</title>
++
++<sect1 id="downloading">
++<title>Pobieranie</title>
++
++<para>&kpsion; jest częścią pakietu plptools, który jest osiągalny pod adresem
++<ulink url="http://plptools.sourceforge.net/">http://plptools.sourceforge.net/</ulink>.</para>
++
++</sect1>
++
++<sect1 id="compiling">
++<title>Kompilacja</title>
++
++<para>Pakiet plptools nie jest skoncentrowany na działanie w środowisku KDE.
++Dlatego, aby umożliwić zbudowanie oprogramowania dla KDE (&kpsion; jest jego 
++częśćią) musisz użyć opcji <option>--enable-kde</option> w programie konfiguracyjnym plptools configure.</para>
++
++<para>Proces budowania przeważnie wygląda tak:</para>
++
++<screen>
++<prompt>$</prompt> <command>./configure <option>--enable-kde</option></command>
++<prompt>$</prompt> <command>make</command>
++<prompt>$</prompt> <command>make <option>install</option></command>
++</screen>
++
++<para>Ostatni krok będziesz musiał wykonać jako root. Proces instalacji
++musi miec możliwość pisania w katalogach systemowych KDE.</para>
++
++</sect1>
++</chapter>
++
++<chapter id="using-kpsion">
++<title>Użytkowanie &kpsion;</title>
++
++<para>
++Użytkowanie &kpsion; jest proste. Normalnie uruchamiasz &kpsion; 
++używając pozycji w menu narzędzia K - Menu.
++Można także uruchomić &kpsion; z shella. Składnia może być następująca:
++</para>
++
++    <cmdsynopsis>
++      <command>kpsion</command>
++    </cmdsynopsis>
++
++    <cmdsynopsis>
++      <command>kpsion</command>
++      <arg>--autobackup</arg>
++    </cmdsynopsis>
++
++    <cmdsynopsis>
++      <command>kpsion</command>
++      <arg>--backup <replaceable>DYSK</replaceable></arg>
++    </cmdsynopsis>
++
++    <cmdsynopsis>
++      <command>kpsion</command>
++      <arg>--restore <replaceable>DYSK</replaceable></arg>
++    </cmdsynopsis>
++
++    <cmdsynopsis>
++      <command>kpsion</command>
++      <arg>--format <replaceable>DYSK</replaceable></arg>
++    </cmdsynopsis>
++
++<para>Gdy uruchomiony bez opcji, &kpsion; uruchomi się w trybie interaktywnym, 
++gdy uruchomiony z dowolną z powyższych opcji &kpsion; przeprowadzi żądaną
++czynność nieinteraktywnie.</para>
++<variablelist>
++<varlistentry>
++<term><option>--autobackup</option></term>
++<listitem><para>
++Ta opcja wymusza przeprowadzenie ustalonego na dany czas backupu.
++Jeśli Psion nie będzie podłączony, nic się nie wydarzy.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><option>--backup <replaceable>DYSK</replaceable></option></term>
++<listitem><para>
++Ta opcja powoduje rozpoczęcie backupu określonego <replaceable>DYSKU</replaceable>
++<replaceable>DYSK</replaceable> jest pojedyńczą literą dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><option>--restore <replaceable>DYSK</replaceable></option></term>
++<listitem><para>
++Ta opcja uruchamia odzyskiwanie danych dla określonego <replaceable>DYSKU</replaceable>.
++<replaceable>DYSK</replaceable> jest pojedyńczą literą dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><option>--format <replaceable>DYSK</replaceable></option></term>
++<listitem><para>
++		Ta opcja spowoduje rozpoczęcie formatowania okreslonego <replaceable>DYSKU</replaceable>.
++<replaceable>DYSK</replaceable> jest pojedyńczą literą dysku.
++		
++</para></listitem>
++</varlistentry>
++
++</variablelist>
++
++</chapter>
++
++<chapter id="commands">
++<title>Polecenia</title>
++
++<sect1 id="kpsion-mainwindow">
++<title>Główne okno &kpsion; </title>
++<para>
++<screenshot>
++<screeninfo>Główne okno &kpsion;</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="toplevel.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++    <phrase>Główne okno&kpsion;</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++Gdy palmtop Psion jest podłączony, główne okno pokazuje jego dyski.
++Klikając na ikonie dysku możesz zmieniać wybór. Jeśli jakiś dysk zostanie 
++wybrany, pozycje w menu i pasku narzędzi zostają udostępnione.
++Najczciej realizowane  <guimenu>akcje</guimenu> są dostępne poprzez
++pasek narzędzi. Należą do nich:</para>
++<para>
++<itemizedlist>
++<listitem><para>
++<guiicon>
++  <inlinemediaobject>
++    <imageobject>
++      <imagedata fileref="psion_backup.png" format="PNG"></imagedata>
++    </imageobject>
++  </inlinemediaobject>
++</guiicon> Pełny backup.
++</para></listitem>
++<listitem><para>
++<guiicon>
++  <inlinemediaobject>
++    <imageobject>
++      <imagedata fileref="psion_restore.png" format="PNG"></imagedata>
++    </imageobject>
++  </inlinemediaobject>
++</guiicon> Odzyskanie danych.
++</para></listitem>
++</itemizedlist>
++</para>
++
++<sect2><title>Menu Plik</title><para><variablelist>
++
++<varlistentry>
++<term><menuchoice>
++<shortcut>
++<keycombo><keycap>Ctrl</keycap><keycap>b</keycap></keycombo>
++</shortcut>
++<guimenu>Plik</guimenu>
++<guimenuitem>Uruchom pełny backup</guimenuitem>
++</menuchoice></term>
++<listitem><para>
++Uruchamia <action>pełny backup</action> wybranego dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><menuchoice>
++<shortcut>
++<keycombo><keycap>Ctrl</keycap><keycap>i</keycap></keycombo>
++</shortcut>
++<guimenu>Plik</guimenu>
++<guimenuitem>Backup różnicowy</guimenuitem>
++</menuchoice></term>
++<listitem><para>
++Uruchamia <action>różniowy backup</action> wybranego dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><menuchoice>
++<shortcut>
++<keycombo><keycap>Ctrl</keycap><keycap>r</keycap></keycombo>
++</shortcut>
++<guimenu>Plik</guimenu>
++<guimenuitem>Odzyskiwanie danych.</guimenuitem>
++</menuchoice></term>
++<listitem><para>
++Uruchamia proces <action>odzyskiwania danych</action> wybranego dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><menuchoice>
++<shortcut>
++<keycombo><keycap>Ctrl</keycap><keycap>f</keycap></keycombo>
++</shortcut>
++<guimenu>Plik</guimenu>
++<guimenuitem>Formatowanie</guimenuitem>
++</menuchoice></term>
++<listitem><para>
++Uruchamia <action>formatowanie</action> wybranego dysku.
++</para></listitem>
++</varlistentry>
++
++<varlistentry>
++<term><menuchoice>
++<shortcut>
++<keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
++</shortcut>
++<guimenu>Plik</guimenu>
++<guimenuitem>Koniec</guimenuitem>
++</menuchoice></term>
++<listitem><para>
++<action>Kończy</action> &kpsion;.
++</para></listitem>
++</varlistentry>
++
++</variablelist></para></sect2>
++
++</sect1>
++
++</chapter>
++
++<chapter id="Configuration">
++<title>Konfiguracja</title>
++
++<sect1 id="firsttime">
++<title>Pierwsze uruchomienie</title>
++
++<para>
++Gdy uruchamiasz &kpsion; po raz pierwszy, pojawia się kreator, który pozwala Ci
++w prosty sposób skonfigurować aplikację dla osobistego uytku. Wstępna 
++konfiguracja jest podzielona na trzy kroki:
++</para>
++
++<sect2>
++<title>Wybór katalogu na kopie danych.</title>
++<para>
++<screenshot>
++<screeninfo>Krok pierwszy. Wybierz katalog na kopie danych.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="firstwizard-1.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++<phrase>Wybieranie katalogu na kopie danych</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++Katalog na kopie danych będzie używany przez &kpsion; do przechowywania 
++archiwów zawartości Twojego Psiona. Moesz po prostu zaakceptowa domylne
++propozycje kreatora, zwaszcza jeśli nie musisz się martwić ilością miejsca 
++w Twoim katalogu domowym. W przeciwnym wypadku, wybierz katalogu zgodnie z
++wasnym wyborem klikając na przycisk "Przeglądaj". &kpsion; tworzy taki
++katalog, jeśli nie istnieje. Oczywiście musisz mieć odpowiednie uprawnienia
++do zapisu.
++</para>
++<para></para>
++</sect2>
++
++<sect2>
++<title>Ustalanie strategii kopii</title>
++<para>
++<screenshot>
++<screeninfo>Krok drugi. Strategia backupu.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="firstwizard-2.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++      <phrase>Ustalanie strategii backupu.</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++W drugim kroku masz możliwość ustalenia strategii backupu. Dla obydwu typów,
++backupu, pełnego i różnicowego, możesz określić przedział czasowy.
++Jeśli jakikolwiek z tych interwałów jest określony, &kpsion; stworzy plik
++typu <filename>.desktop</filename> w Twoim katalogu Autostartu KDE.
++Ilekroć Kde zostanie uruchomione, zostanie uruchomiony &kpsion; w trybie 
++autmatycznego robienia kopii. Jeśli żądany czas minął, a Psion będzie 
++aktualnie podłączony, procedura backupu zostanie uruchomiona.
++</para>
++<para>
++Kolejne ustawienie, to ilość kopii, która będzie przechowywana.
++Na backup skadaj się procedury pełnego backupu i backupu różnicowego.
++Jeśli backup zostanie zakończony sukcesem, &kpsion; sprawdzi, czy jest więcej
++plików backupu i usunie starsze kopie.
++</para>
++<para></para>
++</sect2>
++
++<sect2>
++<title>Parametry komunikacji</title>
++<para>
++<screenshot>
++<screeninfo>Krok trzeci. Parametry komunikacji.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="firstwizard-3.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++      <phrase>Ustalanie parametrów komunikacji.</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++W trzecim kroku możesz ustalić zachowanie &kpsion; w trakcie łączenia z Psionem.
++Jeśli ustalisz czas ponawiania połączenia na wartość niezerową, &kpsion;
++będzie podejmował próby połączenia jeśli mu się nie powiedzie.
++Ponieważ &kpsion; potrzebuje działającego daemona ncpd, jest take możliwe 
++uruchomienie tego daemona "z lotu", jeśli okazałoby się, że nie działa.
++Aby to działało musisz mieć uprawnienia do korzystania z danego portu 
++(zapewne grupy tty, ttyS; przyp. tłum.).
++</para>
++<para></para>
++</sect2>
++
++</sect1>
++
++<sect1 id="newpsion">
++<title>Podłączanie nowego Psiona</title>
++
++<para>
++Kiedy &kpsion; podłącza się do Psiona, odczytuje unikalne informacje 
++identyfikacyjne (ID) i sprawdza, czy ten palmtop był podłączany już wcześniej.
++Jeśli podłączany Psion nie był wcześniej używany z &kpsion;, zostaje uruchomiony
++kreator, który pozwala na dodanie nowej nazwy dla tego palmtopa i określenie
++które dyski będą backupowane, gdy uruchamiany w trybie nieinteraktywnym.
++</para>
++
++<sect2>
++<title>Nazwa Psiona</title>
++<para>
++<screenshot>
++<screeninfo>Krok pierwszy. Nazwa Psiona.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="newpsionwizard-1.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++      <phrase>Ustalanie nazwy dla Psiona.</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++Nazwa nowego Psiona nie jest używana przez &kpsion; wewnętrznie, tylko
++jest używana do określania nazwy maszyny, gdy podpęita.
++</para>
++<para></para>
++</sect2>
++
++<sect2>
++	<title>Określanie dysków do backupowania.</title>
++<para>
++<screenshot>
++	<screeninfo>Krok drugi. Określanie dysków do backupowania.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="newpsionwizard-2.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++      <phrase>Określanie dysków do backupowania.</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++Zwykle powinieneś wybrać wszystkie dyski, oprócz ROM dysku. ROM dysk
++może zostać zbackupowany, ale oczywiście nie może zostać taka kopia 
++odtworzona.
++</para>
++<para></para>
++</sect2>
++</sect1>
++
++<sect1 id="settings">
++<title>Ustawienia</title>
++
++<para>
++Wszystkie ustawienia, skonfigurowane przy kreatorze pojawiającym się przy 
++pierwszym podłączeniu nowego Palmtopa, mogą zostać w dowolnym momencie 
++zmienione, przy uyciu opcji ustawień z menu. Okienko dialogowe ustawień
++składa się z następujących trzech pozycji:
++</para>
++
++<sect2>
++<title>Backup</title>
++<para>
++<screenshot>
++<screeninfo>Ustawienia, Backup.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="settings-backup.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++      <phrase>Ustawienia, Backup</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++</para>
++<para></para>
++</sect2>
++
++<sect2>
++<title>Połączenia</title>
++<para>
++<screenshot>
++<screeninfo>Ustawienia, połączenia.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="settings-connection.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++    <phrase>Ustawienia, połączenia</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++</para>
++<para></para>
++</sect2>
++
++<sect2>
++<title>Maszyny</title>
++<para>
++<screenshot>
++<screeninfo>Ustawienia, maszyny.</screeninfo>
++  <mediaobject>
++    <imageobject>
++      <imagedata fileref="settings-machines.png" format="PNG"></imagedata>
++    </imageobject>
++    <textobject>
++    <phrase>Ustawienia, maszyny</phrase>
++    </textobject>
++  </mediaobject>
++</screenshot>
++</para>
++<para></para>
++</sect2>
++
++</sect1>
++
++</chapter>
++
++<chapter id="Internals">
++<title>Kwestie wewnętrzne</title>
++
++<sect1 id="backupformat">
++<title>Pliki backupu</title>
++
++<para>Pliki backupu stworzone przez  &kpsion; są po prostu zgzipowanymi plikami
++	archiwum tar. Pliki są nazywane zgodnie z poniższą zasadą:
++<variablelist>
++<varlistentry>
++<term>TYP-YYYY-MO-DD-HH-MI-SS.tar.gz</term>
++<listitem><para>
++   gdzie
++  <variablelist>
++  <varlistentry>
++  <term>TYP</term>
++  <listitem><para>
++    jest pojedyńczym znakiem, reprezntujcym typ backupu.
++    'I' określa backup różnicowy (ang. incremental)
++    'F' określa backup pełny (ang. full).
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>YYYY</term>
++  <listitem><para>
++	rok utworzenia
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>MO</term>
++  <listitem><para>
++		  miesiąc utworzenia
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>DD</term>
++  <listitem><para>
++		  dzień utworzenia
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>HH</term>
++  <listitem><para>
++		  godzina utworzenia
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>MI</term>
++  <listitem><para>
++		  minuta utworzenia
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>SS</term>
++  <listitem><para>
++		  sekunda utworzenia
++  </para></listitem>
++  </varlistentry>
++  </variablelist>
++</para></listitem>
++</varlistentry>
++</variablelist>
++Nazwy plików w archiwum tara są konwertowane aby sprostać oglónym zasadom 
++nazewnictwa plików. Wszystkie wystąpienia znaku '%' są zmieniane na 
++łańcuch '%25', wszystkie wystąpienia '/' są zamieniane na '%2f', a wystąpienia
++'\' są zamieniane na '/'.
++</para>
++<para>
++W powiązaniu do plików danych na Psionie, każde archiwum zawiera
++specjalny plik indeksujący, gdzie są zachowane oryginalne atrybuty
++i charakterystyczny dla Psiona 64 bitowy czas pliku. Ten plik nazywa się
++KPsionIncrementalIndex dla kopii różnicowych oraz KPsionFullIndex dla kopii
++pełnych. Plik indeksu jest przechowywany w katalogu backupu jako plik ASCII,
++zawierający jedną linię danych na jeden plik, z następującymi polami:
++<variablelist>
++<varlistentry>
++<term>hhhhhhhh llllllll ssssssss aaaaaaaa fn</term>
++<listitem><para>
++		gdzie
++  <variablelist>
++  <varlistentry>
++  <term>hhhhhhhh</term>
++  <listitem><para>
++		  to 8 cyfrowy szesnastkowy numer reprezentujący wyższą
++		  połówkę czasu modyfikacji pliku.
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>llllllll</term>
++  <listitem><para>
++		  to 8 cyfrowy szesnastkowy numer reprezentującą niższą
++		  połówkę czasu modyfikacji pliku.
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>ssssssss</term>
++  <listitem><para>
++		  to 8 cyfrowy szesnastkowy numer reprezentujący rozmiar pliku.
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>aaaaaaaa</term>
++  <listitem><para>
++		  to 8 cyfrowy szesnastkowy numer reprezentujący natywne
++		  atrybuty pliku.
++  </para></listitem>
++  </varlistentry>
++  <varlistentry>
++  <term>fn</term>
++  <listitem><para>
++		  Nieskonwertowana oryginalna nazwa absolutna pliku.
++  </para></listitem>
++  </varlistentry>
++  </variablelist>
++</para></listitem>
++</varlistentry>
++</variablelist>
++Pierwsza linia pliku indeksu zawiera nagłówek o następującym formacie:
++<variablelist>
++<varlistentry>
++<term>#plpbackup index T</term>
++<listitem><para>
++  gdzie
++  <variablelist>
++  <varlistentry>
++  <term>T</term>
++  <listitem><para>
++  jest pojedyńczym znakiem, reprezentującym typ kopii.
++  'I' określa backup różnicowy (ang. incremental)
++  'F' określa backup pełny (ang. full).
++  </para></listitem>
++  </varlistentry>
++  </variablelist>
++</para></listitem>
++</varlistentry>
++</variablelist>
++</para>
++</sect1>
++</chapter>
++
++<chapter id="faq">
++	<title>FAQ - Pytania i odpowiedzi</title>
++
++&reporting.bugs;
++ 
++<qandaset id="faqlist">
++<qandaentry>
++<question>
++	<para>Mam Psiona serii 3 i &kpsion; nie działa.</para>
++</question>
++<answer>
++<para>
++	Ten problem jest aktualnie znany i wynika z błędu w plplib. Przykro mi, 
++	ale musisz poczekać aż to zostanie naprawione.
++</para>
++</answer>
++</qandaentry>
++</qandaset>
++</chapter>
++
++<chapter id="Author">
++<title>Author</title>
++
++<para>Copyright 2001 Fritz Elfert</para>
++
++<para>&kpsion; is written by Fritz Elfert.</para>
++
++<para>The author can be reached through email at
++<email>felfert@to.com</email>.  Please report any bugs you find to me so
++that I can fix them. If you have a suggestion, feel free to contact me.</para>
++
++&underFDL;
++&underGPL;
++
++</chapter>
++</book>
++<!--
++Local Variables:
++mode: sgml
++sgml-omittag: nil
++sgml-shorttag: t
++sgml-set-face: t
++End:
++-->
+diff -Nur plptools-0.12.orig/kde2/doc/pl/Makefile.am plptools-0.12/kde2/doc/pl/Makefile.am
+--- plptools-0.12.orig/kde2/doc/pl/Makefile.am	1970-01-01 01:00:00.000000000 +0100
++++ plptools-0.12/kde2/doc/pl/Makefile.am	2004-09-24 01:05:00.204795736 +0200
+@@ -0,0 +1,11 @@
++
++KDE_LANG = pl
++KDE_DOCS = kpsion
++
++EXTRA_DIST = index.docbook.in
++
++index.docbook: index.docbook.in
++	cat index.docbook.in | perl -e 'while (<>) { if (/\$$Date$$/) { $$d=$$1; } s/__DATE__/$$d/; s/__VERSION__/$(VERSION)/; print; }' > index.docbook
++
++maintainer-clean-local:
++	rm -f Makefile.in
