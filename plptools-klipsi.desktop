@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=klipsi
+Name[de]=klipsi
+Name[pl]=klipsi
+Comment=Psion Clipboard Utility
+Comment[de]=Auschneiden/Einfügen: Psion
+Comment[pl]=Zdalny schowek Psiona
+Icon=klipsi
+Exec=klipsi
+Terminal=false
+Categories=Qt;KDE;Applet;
+#DocPath=klipsi/index.html
+# vi: encoding=utf-8

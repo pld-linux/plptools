@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=KPsion
+Name[de]=KPsion
+Name[pl]=KPsion
+Comment=My Psion PDA
+Comment[de]=Mein Psion
+Comment[pl]=Mój Psion
+Icon=psion_desktop
+Exec=kpsion
+Terminal=false
+Categories=Qt;Office;PDA;
+#DocPath=kpsion/index.html
+# vi: encoding=utf-8
