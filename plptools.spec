@@ -44,12 +44,12 @@ automatically mounted under /media/psion at the time it is connected to
 your computer. If the psion is shut down or disconnected, the contents
 of /media/psion will automatically disappear. Other programs included
 are:
- - plpftp, a program which allows you to transfer files in a FTP-like
-   manner, view and modifiy processes on your psion.
- - plpbackup, a backup/restore utility.
- - plpprintd, a daemon for enabling printing from a Psion Series 5 via
-   any accessible printer.
- - sisinstall, an installer for Psion's SIS software package format.
+- plpftp, a program which allows you to transfer files in a FTP-like
+  manner, view and modifiy processes on your psion.
+- plpbackup, a backup/restore utility.
+- plpprintd, a daemon for enabling printing from a Psion Series 5 via
+  any accessible printer.
+- sisinstall, an installer for Psion's SIS software package format.
 
 %description -l de
 Dieses Packet enthält Programme zur Kommunikation mit einem Psion
@@ -58,14 +58,14 @@ unter /media/psion eingehängt. Wird der Psion ausgeschaltet oder das
 Kabel gezogen, so verschwindet der Inhalt dieses Verzeichnisses
 automatisch und erscheint erneuten Anschließen wieder. Weiterhin sind
 enthalten:
- - plpftp, ein Programm welches eine FTP-ähnliche Oberfläche für
-   Dateitransfer bietet und Prozesse auf dem Psion stoppen und starten
-   kann.
- - plpbackup, ein Backup/Restore Utility für die Kommandozeile.
- - plpprintd, ein Daemon welcher Ausdrucken von einem Psion Serie 5
-   über beliebige vefügbare Drucker ermöglicht
- - sisinstall, ein Installationsprogramm für das Psion-eigene SIS
-   packetformat.
+- plpftp, ein Programm welches eine FTP-ähnliche Oberfläche für
+  Dateitransfer bietet und Prozesse auf dem Psion stoppen und starten
+  kann.
+- plpbackup, ein Backup/Restore Utility für die Kommandozeile.
+- plpprintd, ein Daemon welcher Ausdrucken von einem Psion Serie 5
+  über beliebige vefügbare Drucker ermöglicht
+- sisinstall, ein Installationsprogramm für das Psion-eigene SIS
+  packetformat.
 
 %description -l pl
 Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
@@ -74,15 +74,15 @@ automatycznie mountowany w katalogu /media/psion w momencie po³o¿enia na
 podstawce (craddle). Je¶li Psion zostanie wy³±czony albo roz³±czony,
 zawarto¶æ /media/psion automatycznie zniknie. Programy zawarte w
 pakiecie:
- - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
-   FTP na transfer plików, przegl±danie i modyfikacjê procesów
-   dzia³aj±cych na Psionie,
- - plpbackup - narzêdzie do robienia kopii zapasowych (i ich
-   przywracania),
- - plpprintd - demon umo¿liwiaj±cy drukowanie z Psiona na dowolnej
-   dostêpnej w systemie drukarce,
- - sisinstall - narzêdzie umo¿liwiaj±ce instalacjê oprogramowania
-   dostêpnego w formacie SIS.
+- plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
+  FTP na transfer plików, przegl±danie i modyfikacjê procesów
+  dzia³aj±cych na Psionie,
+- plpbackup - narzêdzie do robienia kopii zapasowych (i ich
+  przywracania),
+- plpprintd - demon umo¿liwiaj±cy drukowanie z Psiona na dowolnej
+  dostêpnej w systemie drukarce,
+- sisinstall - narzêdzie umo¿liwiaj±ce instalacjê oprogramowania
+  dostêpnego w formacie SIS.
 
 %package devel
 Summary:	Header files for psion series 5 communication
