@@ -217,6 +217,8 @@ cp -fpr kde2/doc/en/settings-connection.png kde2/doc/pl
 cp -fpr kde2/doc/en/settings-machines.png kde2/doc/pl
 cp -fpr kde2/doc/en/toplevel.png kde2/doc/pl
 
+sed -n '/u_int64_t/!p' \
+	-i include/plp_inttypes.h
 sed 's/lpr -Ppsion/lpr/' \
 	-i plpprint/plpprintd.cc
 
