@@ -7,15 +7,26 @@ License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-# Source0-md5:	51738b3bd747a1c637cf333a8caf9292
-Patch0:		%{name}-rcscripts-doc-pl-fix.patch
+# Source0-md5: 51738b3bd747a1c637cf333a8caf9292
+Source1:	%{name}.init
+Source2:	%{name}.am_edit
+Patch0:		%{name}-pl.patch
 Patch1:		%{name}-c++.patch
+Patch2:		%{name}-assert.patch
+Patch3:		%{name}-kde.patch
+#Patch4:		%{name}-am_edit_fix.patch
 URL:		http://plptools.sourceforge.net/
+BuildRequires:	automake
 BuildRequires:	fam-devel
 BuildRequires:	kdelibs-devel >= 2.1
+BuildRequires:	gettext-devel
+BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
 BuildRequires:	newt-devel
+BuildRequires:	qt-st-devel
 BuildRequires:	readline-devel
+BuildRequires:	sed >= 4.0
+BuildRequires:	/usr/bin/perl
 PreReq:		rc-scripts
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
@@ -181,6 +192,9 @@ szybkiego zabierania informacji "ze sob±" :).
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+#%patch4 -p1
 cp -fpr kde2/doc/de/firstwizard-1.png kde2/doc/pl
 cp -fpr kde2/doc/de/firstwizard-2.png kde2/doc/pl
 cp -fpr kde2/doc/de/firstwizard-3.png kde2/doc/pl
@@ -196,10 +210,28 @@ cp -fpr kde2/doc/de/settings-machines.png kde2/doc/pl
 cp -fpr kde2/doc/de/toplevel.png kde2/doc/pl
 
 %build
+
+#it does nothing, but brakes aclocal
+sed 's/AC_DIVERSION_NOTICE/0/' \
+	-i conf/m4/plptools/PLP_HELP_MESSAGE.m4
+sed 's|^mkinstalldirs.*|mkinstalldirs = $(SHELL) $(top_srcdir)/conf/mkinstalldirs|' \
+	-i po/Makefile.in.in
+
+sed 's/lpr -Ppsion/lpr/' \
+	-i plpprint/plpprintd.cc
+
+%{__libtoolize}
+%{__aclocal} -I conf/m4/plptools -I conf/m4/kde
+%{__autoconf}
+%{__automake}
+
+install %{SOURCE2} conf/am_edit
+perl conf/am_edit -pconf
+
 kde_appsdir="%{_applnkdir}"; export kde_appsdir
 kde_htmldir="%{_htmldir}"; export kde_htmldir
 kde_icondir="%{_pixmapsdir}"; export kde_icondir
-%configure2_13 \
+%configure \
 	--enable-kde \
 	--with-qt-includes=/usr \
 	--with-initdir=%{_initrddir} \
@@ -212,13 +244,14 @@ kde_icondir="%{_pixmapsdir}"; export kde_icondir
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_prefix},%{_initrddir},/etc/sysconfig}
+install -d $RPM_BUILD_ROOT/var/spool/plpprint
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install conf/kiodoc-update.pl \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/kiodoc-update.pl
-install -m755 etc/psion.PLD $RPM_BUILD_ROOT%{_initrddir}/psion
+install -m755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/psion
 
 cat>$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/psion<<EOF
 #
@@ -226,7 +259,7 @@ cat>$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/psion<<EOF
 # or use man program to get full information :-)
 #
 START_NCPD=yes
-NCPD_ARGS=
+#NCPD_ARGS="-s /dev/ttyS0"
 START_PLPNFSD=yes
 #
 # Use option like:
@@ -256,10 +289,10 @@ rm -rf $RPM_BUILD_ROOT
 perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
 %preun
-if [ "$1" = "0" ]; then
+#if [ "$1" = "0" ]; then
 	%{_initrddir}/psion stop >&2
         /sbin/chkconfig --del psion
-fi
+#fi
 
 %postun	-p /sbin/ldconfig
 
@@ -268,7 +301,7 @@ KONQRC=`kde-config --expandvars --install config`/konquerorrc
 if test -f $KONQRC && grep -q '\[Notification Messages\]' $KONQRC ; then
         cp $KONQRC $KONQRC.$$
         cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=No" | sed \
-                -e '/\[Notification Messages\]/a' \
+                -e '/\[Notification Messages\]/a\' \
                 -e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
         rm -f $KONQRC.$$
 else
@@ -304,10 +337,11 @@ fi
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/psion
 %{_mandir}/*/*
 %dir /mnt/psion
+%dir /var/spool/plpprint
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/api etc/*.spec
+%doc doc/api
 %attr(755,root,root) %{_libdir}/libplp.so
 %{_libdir}/libplp.la
 %{_includedir}/%{name}
