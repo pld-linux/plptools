@@ -44,7 +44,7 @@ automatically mounted under /media/psion at the time it is connected to
 your computer. If the psion is shut down or disconnected, the contents
 of /media/psion will automatically disappear. Other programs included
 are:
- - plpftp, a program which allows you to transfer files in a ftp-like
+ - plpftp, a program which allows you to transfer files in a FTP-like
    manner, view and modifiy processes on your psion.
  - plpbackup, a backup/restore utility.
  - plpprintd, a daemon for enabling printing from a Psion Series 5 via
@@ -75,7 +75,7 @@ podstawce (craddle). Je¶li Psion zostanie wy³±czony albo roz³±czony,
 zawarto¶æ /media/psion automatycznie zniknie. Programy zawarte w
 pakiecie:
  - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
-   ftp na transfer plików, przegl±danie i modyfikacjê procesów
+   FTP na transfer plików, przegl±danie i modyfikacjê procesów
    dzia³aj±cych na Psionie,
  - plpbackup - narzêdzie do robienia kopii zapasowych (i ich
    przywracania),
