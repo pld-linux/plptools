@@ -165,16 +165,16 @@ Requires:	%{name} = %{version}
 This package contains a KDE utility for using the Psion's remote
 clipboard function.
 
+%description -n klipsi -l de
+Dieses Packet enthält ein KDE Werkzeug zum Transfer der Zwischenablage
+zwischen Psion und Rechner.
+
 %description -n klipsi -l pl
 Ten pakiet zapewnia mo¿liwo¶æ korzystania w KDE z narzêdzi
 obs³uguj±cych zdalny schowek w Psionie. To co zaznaczysz w KDE, mo¿esz
 w Psionie wkleiæ przez ^V, a co w psionie skopiujesz przez ^C, mo¿esz
 w kde wklejaæ przez kombinacjê ^C, czyli CTRL-C ;-) Miodna sprawa do
 szybkiego zabierania informacji "ze sob±" :).
-
-%description -n klipsi -l de
-Dieses Packet enthält ein KDE Werkzeug zum Transfer der Zwischenablage
-zwischen Psion und Rechner.
 
 %prep
 %setup -q
