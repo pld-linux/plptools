@@ -103,8 +103,9 @@ Dieses Packet enthält die statische Bibliothek zur
 Programm-Entwicklung von Kommunikations-software für den Psion.
 
 %description static -l pl
-Ten pakiet zawiera statyczne biblioteki do budowania statycznie
-linkowanych programów, które mog± siê komunikowaæ z palmtopami Psion
+
+Ten pakiet zawiera statyczne biblioteki do budowania konsolidowanych
+statycznie programów, które mog± siê komunikowaæ z palmtopami Psion
 serii 5.
 
 %package kde
