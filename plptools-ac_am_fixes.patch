@@ -1,0 +1,259 @@
+diff -Nur plptools-0.12.orig/conf/configure.in.in plptools-0.12/conf/configure.in.in
+--- plptools-0.12.orig/conf/configure.in.in	2003-02-03 01:29:35.000000000 +0100
++++ plptools-0.12/conf/configure.in.in	2004-09-29 19:59:53.496794864 +0200
+@@ -51,7 +51,6 @@
+   AC_MSG_RESULT(yes)
+   AC_CHECK_LIB(bsd, hostname)
+   EXTRA_OBJS=mount_aix.o
+-  AC_DEFINE(_ALL_SOURCE)
+ else
+   AC_MSG_RESULT(no)
+ fi
+@@ -317,46 +316,10 @@
+ 	AM_CONDITIONAL(BUILD_KDE, true)
+ fi
+ 
+-AC_OUTPUT(
+-	Makefile
+-	intl/Makefile
+-	po/Makefile.in
+-	po/Makefile
+-	lib/Makefile
+-	ncpd/Makefile
+-	plpftp/Makefile
+-	plpnfsd/Makefile
+-	kde2/Makefile
+-	kde2/kioslave/Makefile
+-	kde2/plugins/Makefile
+-	kde2/kpsion/Makefile
+-	kde2/klipsi/Makefile
+-	kde2/po/Makefile
+-	kde2/po/de/Makefile
+-	kde2/mime/Makefile
+-	kde2/mime/icons/Makefile
+-	kde2/doc/Makefile
+-	kde2/doc/en/Makefile
+-	kde2/doc/de/Makefile
+-	kde2/doc/kioslave/Makefile
+-	kde2/doc/kioslave/de/Makefile
+-	kde2/doc/kioslave/en/Makefile
+-	plpbackup/Makefile
+-	plpprint/Makefile
+-	plpprint/prolog.ps
+-	sisinstall/Makefile
+-	doc/Makefile
+-	doc/api/Makefile
+-	etc/psion
+-	etc/psion.SuSE
+-	etc/psion.SuSE8
+-	etc/plptools.spec
+-	doc/ncpd.man
+-	doc/plpnfsd.man
+-	doc/plpftp.man
+-	doc/sisinstall.man
+-	doc/plpprintd.man
+-	doc/plpbackup.man
+-	debian/kpsion.1.in
+-	debian/klipsi.1.in
+-)
++AC_CONFIG_FILES([ plpprint/prolog.ps ])
++AC_CONFIG_FILES([ doc/ncpd.man ])
++AC_CONFIG_FILES([ doc/plpnfsd.man ])
++AC_CONFIG_FILES([ doc/plpftp.man ])
++AC_CONFIG_FILES([ doc/sisinstall.man ])
++AC_CONFIG_FILES([ doc/plpprintd.man ])
++AC_CONFIG_FILES([ doc/plpbackup.man ])
+diff -Nur plptools-0.12.orig/conf/m4/plptools/PLP_HELP_MESSAGE.m4 plptools-0.12/conf/m4/plptools/PLP_HELP_MESSAGE.m4
+--- plptools-0.12.orig/conf/m4/plptools/PLP_HELP_MESSAGE.m4	2001-01-27 05:02:27.000000000 +0100
++++ plptools-0.12/conf/m4/plptools/PLP_HELP_MESSAGE.m4	2004-09-29 19:49:02.401776352 +0200
+@@ -2,7 +2,7 @@
+ dnl Insert a custom line into the output of configure --help
+ dnl
+ AC_DEFUN(PLP_HELP_MSG,[
+-	AC_DIVERT_PUSH(AC_DIVERSION_NOTICE)dnl
++	AC_DIVERT_PUSH(0)dnl
+ 	ac_help="$ac_help
+ [$1]"
+ 	AC_DIVERT_POP()dnl
+diff -Nur plptools-0.12.orig/kde2/doc/kioslave/de/Makefile.am plptools-0.12/kde2/doc/kioslave/de/Makefile.am
+--- plptools-0.12.orig/kde2/doc/kioslave/de/Makefile.am	2002-08-10 21:13:41.000000000 +0200
++++ plptools-0.12/kde2/doc/kioslave/de/Makefile.am	2004-09-29 20:13:16.068785376 +0200
+@@ -1,7 +1,2 @@
+ KDE_LANG = de
+-kiodocdir = $(kde_libs_htmldir)/$(KDE_LANG)/kioslave
+-kiodoc_DATA = psion.docbook
+-EXTRA_DIST = $(kiodoc_DATA)
+-
+-maintainer-clean-local:
+-	rm -f Makefile.in
++KDE_DOCS = kioslave
+diff -Nur plptools-0.12.orig/kde2/doc/kioslave/en/Makefile.am plptools-0.12/kde2/doc/kioslave/en/Makefile.am
+--- plptools-0.12.orig/kde2/doc/kioslave/en/Makefile.am	2002-08-10 21:13:47.000000000 +0200
++++ plptools-0.12/kde2/doc/kioslave/en/Makefile.am	2004-09-29 20:13:22.881749648 +0200
+@@ -1,7 +1,2 @@
+ KDE_LANG = en
+-kiodocdir = $(kde_libs_htmldir)/$(KDE_LANG)/kioslave
+-kiodoc_DATA = psion.docbook
+-EXTRA_DIST = $(kiodoc_DATA)
+-
+-maintainer-clean-local:
+-	rm -f Makefile.in
++KDE_DOCS = kioslave
+diff -Nur plptools-0.12.orig/kde2/kioslave/Makefile.am plptools-0.12/kde2/kioslave/Makefile.am
+--- plptools-0.12.orig/kde2/kioslave/Makefile.am	2003-02-03 15:34:06.000000000 +0100
++++ plptools-0.12/kde2/kioslave/Makefile.am	2004-09-29 19:51:03.432376904 +0200
+@@ -3,7 +3,7 @@
+ maintainer-clean-local:
+ 	rm -f Makefile.in *.closure
+ 
+-INCLUDES = $(all_includes) -I$(top_srcdir)/lib
++INCLUDES = $(all_includes) -I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ kdemoduledir = $(kde_moduledir)
+ kdemodule_LTLIBRARIES = kio_plp.la
+diff -Nur plptools-0.12.orig/kde2/klipsi/Makefile.am plptools-0.12/kde2/klipsi/Makefile.am
+--- plptools-0.12.orig/kde2/klipsi/Makefile.am	2002-08-11 07:26:27.000000000 +0200
++++ plptools-0.12/kde2/klipsi/Makefile.am	2004-09-29 20:02:21.439304184 +0200
+@@ -1,15 +1,13 @@
+-libdir=$(kde_libraries)
+  
+-bindir=$(kde_bindir)
+   
+ maintainer-clean-local:
+ 	rm -f Makefile.in
+ 	   
+-METASOURCES = AUTO
++klipsi_METASOURCES = AUTO
+ 	    
+ KDE_ICON = AUTO
+ 	     
+-INCLUDES = $(all_includes) -I$(top_srcdir)/lib
++INCLUDES = $(all_includes) -I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 	      
+ DISTCLEANFILES = $(klipsi_METASOURCES) ./.deps/* ./.deps/.P
+ 
+diff -Nur plptools-0.12.orig/kde2/kpsion/Makefile.am plptools-0.12/kde2/kpsion/Makefile.am
+--- plptools-0.12.orig/kde2/kpsion/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/kde2/kpsion/Makefile.am	2004-09-29 20:02:11.878757608 +0200
+@@ -1,17 +1,15 @@
+ # $Id$
+ 
+-libdir=$(kde_libraries)
+ 
+-bindir=$(kde_bindir)
+ 
+ maintainer-clean-local:
+ 	rm -f Makefile.in
+ 
+-METASOURCES = AUTO
++kpsion_METASOURCES = AUTO
+ 
+ KDE_ICON = AUTO
+ 
+-INCLUDES = $(all_includes) -I$(top_srcdir)/lib
++INCLUDES = $(all_includes) -I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ DISTCLEANFILES = $(kpsion_METASOURCES) ./.deps/* ./.deps/.P
+ 
+diff -Nur plptools-0.12.orig/kde2/plugins/Makefile.am plptools-0.12/kde2/plugins/Makefile.am
+--- plptools-0.12.orig/kde2/plugins/Makefile.am	2002-08-11 07:27:13.000000000 +0200
++++ plptools-0.12/kde2/plugins/Makefile.am	2004-09-29 19:51:03.453373712 +0200
+@@ -1,5 +1,5 @@
+ 
+-INCLUDES = $(all_includes) -I$(top_srcdir)/lib
++INCLUDES = $(all_includes) -I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ kdemoduledir = $(kde_moduledir)
+ kdemodule_LTLIBRARIES = libplpprops.la
+diff -Nur plptools-0.12.orig/lib/Makefile.am plptools-0.12/lib/Makefile.am
+--- plptools-0.12.orig/lib/Makefile.am	2002-07-16 09:38:20.000000000 +0200
++++ plptools-0.12/lib/Makefile.am	2004-09-29 19:53:22.767194792 +0200
+@@ -1,8 +1,6 @@
+ # $Id$
+ #
+-INCLUDES = -I$(top_srcdir)/intl
+-CFLAGS = $(THREADED_CFLAGS)
+-CXXFLAGS = $(THREADED_CXXFLAGS)
++INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir)/include
+ 
+ lib_LTLIBRARIES = libplp.la
+ 
+diff -Nur plptools-0.12.orig/ncpd/Makefile.am plptools-0.12/ncpd/Makefile.am
+--- plptools-0.12.orig/ncpd/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/ncpd/Makefile.am	2004-09-29 19:53:22.773193880 +0200
+@@ -1,8 +1,6 @@
+ # $Id$
+ #
+-INCLUDES=-I$(top_srcdir)/lib
+-CFLAGS = $(THREADED_CFLAGS)
+-CXXFLAGS = $(THREADED_CXXFLAGS)
++INCLUDES=-I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ sbin_PROGRAMS = ncpd
+ 
+diff -Nur plptools-0.12.orig/plpbackup/Makefile.am plptools-0.12/plpbackup/Makefile.am
+--- plptools-0.12.orig/plpbackup/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/plpbackup/Makefile.am	2004-09-29 19:51:03.464372040 +0200
+@@ -1,6 +1,6 @@
+ # $Id$
+ #
+-INCLUDES=-I$(top_srcdir)/lib
++INCLUDES=-I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ bin_PROGRAMS = plpbackup
+ plpbackup_LDADD = $(LIB_PLP)
+diff -Nur plptools-0.12.orig/plpftp/Makefile.am plptools-0.12/plpftp/Makefile.am
+--- plptools-0.12.orig/plpftp/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/plpftp/Makefile.am	2004-09-29 19:51:03.474370520 +0200
+@@ -1,6 +1,6 @@
+ # $Id$
+ #
+-INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/intl
++INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/intl -I$(top_srcdir)/include
+ 
+ bin_PROGRAMS = plpftp
+ plpftp_LDADD = $(LIB_PLP) $(LIBREADLINE) $(LIBHISTORY) $(INTLLIBS)
+diff -Nur plptools-0.12.orig/plpnfsd/Makefile.am plptools-0.12/plpnfsd/Makefile.am
+--- plptools-0.12.orig/plpnfsd/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/plpnfsd/Makefile.am	2004-09-29 19:51:03.485368848 +0200
+@@ -1,6 +1,6 @@
+ # $Id$
+ #
+-INCLUDES=-I$(top_srcdir)/lib
++INCLUDES=-I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ sbin_PROGRAMS = plpnfsd
+ plpnfsd_LDADD = $(LIB_PLP)
+diff -Nur plptools-0.12.orig/plpprint/Makefile.am plptools-0.12/plpprint/Makefile.am
+--- plptools-0.12.orig/plpprint/Makefile.am	2002-08-11 10:55:31.000000000 +0200
++++ plptools-0.12/plpprint/Makefile.am	2004-09-29 19:51:03.490368088 +0200
+@@ -1,6 +1,6 @@
+ # $Id$
+ #
+-INCLUDES=-I$(top_srcdir)/lib
++INCLUDES=-I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ sbin_PROGRAMS = plpprintd
+ plpprintd_LDADD = $(LIB_PLP)
+diff -Nur plptools-0.12.orig/po/Makefile.am plptools-0.12/po/Makefile.am
+--- plptools-0.12.orig/po/Makefile.am	1970-01-01 01:00:00.000000000 +0100
++++ plptools-0.12/po/Makefile.am	2004-09-29 19:51:03.355388608 +0200
+@@ -0,0 +1 @@
++POFILES = AUTO
+diff -Nur plptools-0.12.orig/sisinstall/Makefile.am plptools-0.12/sisinstall/Makefile.am
+--- plptools-0.12.orig/sisinstall/Makefile.am	2002-07-06 20:39:34.000000000 +0200
++++ plptools-0.12/sisinstall/Makefile.am	2004-09-29 19:51:03.480369608 +0200
+@@ -1,11 +1,11 @@
+ # $Id$
+ #
+-INCLUDES=-I$(top_srcdir)/lib
++INCLUDES=-I$(top_srcdir)/lib -I$(top_srcdir)/include
+ 
+ bin_PROGRAMS = sisinstall
+ sisinstall_LDADD = $(top_srcdir)/lib/libplp.la $(LIBNEWT)
+ sisinstall_SOURCES = psion.cpp sisinstaller.cpp sismain.cpp \
+-	fakepsion.cpp sisfilelink.cpp sisfilelink.h
++	fakepsion.cpp sisfilelink.cpp 
+ EXTRA_DIST = psion.h sisinstaller.h fakepsion.h
+ 
+ maintainer-clean-local:
