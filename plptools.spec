@@ -1,7 +1,3 @@
-# TODO: something with /mnt/psion path
-#       (apps must not mess in /mnt and rely on specific /mnt layout)
-#	(use /media instead? - it is also not good idea because of the same
-#        reason)
 Summary:	Connectivity for Psion series 5.
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
@@ -15,6 +11,9 @@ Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	http://ep09.pld-linux.org/~djurban/kde/kde-common-admin.tar.bz2
 # Source2-md5:	81e0b2f79ef76218381270960ac0f55f
+Source3:	%{name}-klipsi.desktop
+Source4:	%{name}-kpsion.desktop
+Source5:	%{name}-plpftp.desktop
 Patch0:		%{name}-pl.patch
 Patch1:		%{name}-cvs_fixes.patch
 Patch2:		%{name}-kde.patch
@@ -38,14 +37,12 @@ Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_htmldir	/usr/share/doc/kde/HTML
-
 %description
 This package contains the programs (client and server), necessary to
 communicate with a Psion palmtop. The psion's file-system will be
-automatically mounted under /mnt/psion at the time it is connected to
+automatically mounted under /media/psion at the time it is connected to
 your computer. If the psion is shut down or disconnected, the contents
-of /mnt/psion will automatically disappear. Other programs included
+of /media/psion will automatically disappear. Other programs included
 are:
  - plpftp, a program which allows you to transfer files in a ftp-like
    manner, view and modifiy processes on your psion.
@@ -57,7 +54,7 @@ are:
 %description -l de
 Dieses Packet enthält Programme zur Kommunikation mit einem Psion
 Palmtop. Das Dateisystem des Psion wird beim Anschließen automatisch
-unter /mnt/psion eingehängt. Wird der Psion ausgeschaltet oder das
+unter /media/psion eingehängt. Wird der Psion ausgeschaltet oder das
 Kabel gezogen, so verschwindet der Inhalt dieses Verzeichnisses
 automatisch und erscheint erneuten Anschließen wieder. Weiterhin sind
 enthalten:
@@ -73,9 +70,9 @@ enthalten:
 %description -l pl
 Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
 komunikacji z palmtopami Psiona (seria 5). System plików Psiona bêdzie
-automatycznie mountowany w katalogu /mnt/psion w momencie po³o¿enia na
+automatycznie mountowany w katalogu /media/psion w momencie po³o¿enia na
 podstawce (craddle). Je¶li Psion zostanie wy³±czony albo roz³±czony,
-zawarto¶æ /mnt/psion automatycznie zniknie. Programy zawarte w
+zawarto¶æ /media/psion automatycznie zniknie. Programy zawarte w
 pakiecie:
  - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
    ftp na transfer plików, przegl±danie i modyfikacjê procesów
@@ -243,6 +240,7 @@ export ACLOCALFLAGS="-I conf/m4/plptools -I conf/m4/kde"
 	--with-qt-includes=/usr \
 	--with-initdir=/etc/rc.d/init.d \
 	--with-kdedir=/usr \
+	--with-mountdir=/media/psion \
 	--x-libraries=/usr/X11R6/%{_lib} \
 	%{?debug:--enable-debug}
 
@@ -264,8 +262,7 @@ install -d $RPM_BUILD_ROOT/var/spool/plpprint
 	kde_libs_htmldir=%{_kdedocdir} \
 	top_lib_pkgincludedir=%{_includedir}/%{name} \
 	top_plpprint_pkgdatadir=%{_datadir}/%{name} \
-	kde_icondir=%{_pixmapsdir} \
-	kde_appsdir=%{_applnkdir}
+	kde_icondir=%{_iconsdir}
 
 rm -f doc/api/Makefile*
 
@@ -284,14 +281,19 @@ START_PLPNFSD=yes
 #
 # Use option like:
 # PLPNFSD_ARGS="-u yoshi"
-# to let user yoshi acces /mnt/psion in ro/rw mode.
+# to let user yoshi acces /media/psion in ro/rw mode.
 #
 PLPNFSD_ARGS=
 START_PLPPRINTD=no
 PLPPRINTD_ARGS=
 EOF
 
-#install -d $RPM_BUILD_ROOT/mnt/psion
+install -d $RPM_BUILD_ROOT/media/psion
+install -d $RPM_BUILD_ROOT%{_desktopdir}/kde
+
+install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/kde/klipsi.desktop
+install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/kpsion.desktop
+install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}/plpftp.desktop
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/doc/kde/HTML/{en,de,pl}/kpsion/index.docbook.in
 
@@ -367,11 +369,12 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/libplp.so.*.*
 %{_datadir}/%{name}
+%{_desktopdir}/plpftp*
 %exclude %{_datadir}/%{name}/kiodoc-update.pl
 %attr(754,root,root) /etc/rc.d/init.d/psion
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/psion
 %{_mandir}/*/*
-#%dir /mnt/psion
+%dir /media/psion
 %dir /var/spool/plpprint
 
 %files devel
@@ -392,9 +395,9 @@ fi
 %attr(755,root,root) %{_libdir}/kde*/libplpprops.so*
 %{_libdir}/kde*/libplpprops.la
 %{_datadir}/services/*
-%{_pixmapsdir}/*/*/mimetypes/*
-%{_pixmapsdir}/*/*/devices/*
-%{_pixmapsdir}/*/*/apps/psion*
+%{_iconsdir}/*/*/mimetypes/*
+%{_iconsdir}/*/*/devices/*
+%{_iconsdir}/*/*/apps/psion*
 %{_datadir}/mimelnk/*/*
 %{_datadir}/%{name}/kiodoc-update.pl
 %lang(de) %{_kdedocdir}/de/kioslave/psion.docbook
@@ -415,7 +418,7 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/klipsi
 %attr(755,root,root) %{_libdir}/klipsi.so.*
-%{_desktopdir}/klipsi*
+%{_desktopdir}/kde/klipsi*
 %{_datadir}/apps/klipsi
 %{_iconsdir}/*/*/apps/klipsi*
 %{_iconsdir}/*/*/actions/klipsi*
