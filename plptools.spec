@@ -245,8 +245,9 @@ export ACLOCALFLAGS="-I conf/m4/plptools -I conf/m4/kde"
 	%{?debug:--enable-debug}
 
 
-( cd doc; make ncpd.8 plpnfsd.8 plpprintd.8 \
-	plpftp.1 sisinstall.1 plpbackup.1 )
+%{__make} -C doc \
+	ncpd.8 plpnfsd.8 plpprintd.8 \
+	plpftp.1 sisinstall.1 plpbackup.1
 
 %{__make}
 
