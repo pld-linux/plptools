@@ -346,6 +346,7 @@ if test -f $KONQRC && grep -q '\[Notification Messages\]' $KONQRC ; then
 		-e '/\[Notification Messages\]/a\' \
 		-e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
 	rm -f $KONQRC.$$
+#vim: '
 else
 cat>>$KONQRC<<EOF
 
@@ -400,9 +401,9 @@ fi
 %attr(755,root,root) %{_libdir}/kde*/libplpprops.so*
 %{_libdir}/kde*/libplpprops.la
 %{_datadir}/services/*
-%{_iconsdir}/*/*/mimetypes/*
-%{_iconsdir}/*/*/devices/*
-%{_iconsdir}/*/*/apps/psion*
+%{_iconsdir}/hicolor/*/mimetypes/*
+%{_iconsdir}/hicolor/*/devices/*
+%{_iconsdir}/hicolor/*/apps/psion*
 %{_datadir}/mimelnk/*/*
 %{_datadir}/%{name}/kiodoc-update.pl
 %lang(de) %{_kdedocdir}/de/kioslave/psion.docbook
@@ -416,8 +417,8 @@ fi
 %{_desktopdir}/kpsion*
 %{_datadir}/apps/kpsion
 %{_datadir}/apps/konqueror/*
-%{_iconsdir}/*/*/apps/kpsion*
-%{_iconsdir}/*/*/actions/psion*
+%{_iconsdir}/hicolor/*/apps/kpsion*
+%{_iconsdir}/hicolor/*/actions/psion*
 
 %files -n klipsi -f klipsi.lang
 %defattr(644,root,root,755)
@@ -425,5 +426,5 @@ fi
 %attr(755,root,root) %{_libdir}/klipsi.so.*
 %{_desktopdir}/kde/klipsi*
 %{_datadir}/apps/klipsi
-%{_iconsdir}/*/*/apps/klipsi*
-%{_iconsdir}/*/*/actions/klipsi*
+%{_iconsdir}/hicolor/*/apps/klipsi*
+%{_iconsdir}/hicolor/*/actions/klipsi*
