@@ -279,6 +279,9 @@ install -d $RPM_BUILD_ROOT/mnt/psion
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/doc/kde/HTML/{en,de,pl}/kpsion/index.docbook.in
 
+# No public headers for these libs, only used internally
+rm -f $RPM_BUILD_ROOT%{_libdir}/{libkpsion,klipsi}.{a,la,so}
+
 %find_lang %{name}
 %find_lang libplpprops
 %find_lang kpsion --with-kde
@@ -385,8 +388,7 @@ fi
 %files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kpsion
-%attr(755,root,root) %{_libdir}/libkpsion.so*
-%{_libdir}/libkpsion.la
+%attr(755,root,root) %{_libdir}/libkpsion.so.*
 %{_applnkdir}/*/kpsion*
 %{_datadir}/apps/kpsion
 %{_datadir}/apps/konqueror/*
@@ -396,8 +398,7 @@ fi
 %files -n klipsi -f klipsi.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/klipsi
-%attr(755,root,root) %{_libdir}/klipsi.so*
-%{_libdir}/klipsi.la
+%attr(755,root,root) %{_libdir}/klipsi.so.*
 %{_applnkdir}/*/klipsi*
 %{_datadir}/apps/klipsi
 %{_pixmapsdir}/*/*/apps/klipsi*
