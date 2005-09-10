@@ -1,13 +1,13 @@
 Summary:	Connectivity for Psion series 5.
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
-Version:	0.12
-Release:	1
+Version:	0.14
+Release:	0.1
 License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-# Source0-md5:	51738b3bd747a1c637cf333a8caf9292
+# Source0-md5:	728902c3bfc44de175cb59256f3283a5
 Source1:	%{name}.init
 Source2:	http://ep09.pld-linux.org/~djurban/kde/kde-common-admin.tar.bz2
 # Source2-md5:	81e0b2f79ef76218381270960ac0f55f
@@ -15,9 +15,7 @@ Source3:	%{name}-klipsi.desktop
 Source4:	%{name}-kpsion.desktop
 Source5:	%{name}-plpftp.desktop
 Patch0:		%{name}-pl.patch
-Patch1:		%{name}-cvs_fixes.patch
-Patch2:		%{name}-kde.patch
-Patch3:		%{name}-ac_am_fixes.patch
+Patch1:		%{name}-ac_am_fixes.patch
 URL:		http://plptools.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -201,21 +199,7 @@ ln -s conf admin
 tar -jxf %{SOURCE2}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-cp -fpr kde2/doc/en/firstwizard-1.png kde2/doc/pl
-cp -fpr kde2/doc/en/firstwizard-2.png kde2/doc/pl
-cp -fpr kde2/doc/en/firstwizard-3.png kde2/doc/pl
-cp -fpr kde2/doc/en/newpsionwizard-1.png kde2/doc/pl
-cp -fpr kde2/doc/en/newpsionwizard-2.png kde2/doc/pl
-cp -fpr kde2/doc/en/psion_backup.png kde2/doc/pl
-cp -fpr kde2/doc/en/psion_restore.png kde2/doc/pl
-cp -fpr kde2/doc/en/restore-initial.png kde2/doc/pl
-cp -fpr kde2/doc/en/restore-treeopen.png kde2/doc/pl
-cp -fpr kde2/doc/en/settings-backup.png kde2/doc/pl
-cp -fpr kde2/doc/en/settings-connection.png kde2/doc/pl
-cp -fpr kde2/doc/en/settings-machines.png kde2/doc/pl
-cp -fpr kde2/doc/en/toplevel.png kde2/doc/pl
+install kde2/doc/en/*.png kde2/doc/pl
 
 sed -n '/u_int64_t/!p' \
 	-i include/plp_inttypes.h
@@ -225,10 +209,9 @@ sed 's/^defaultMimetype=.*$/defaultMimetype=application\/octet-stream/' \
 	-i kde2/kioslave/psion.protocol
 
 
-find -name Makefile.in -exec rm "{}" ";"
+find -name "Makefile.in" | xargs rm
 rm configure{.in,} po/Makefile.in.in
 mv {conf/,}configure.in.in
-
 touch intl/Makefile.am
 
 %build
@@ -413,7 +396,7 @@ fi
 %files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kpsion
-%attr(755,root,root) %{_libdir}/libkpsion.so.*
+#%attr(755,root,root) %{_libdir}/libkpsion.so.*
 %{_desktopdir}/kpsion*
 %{_datadir}/apps/kpsion
 %{_datadir}/apps/konqueror/*
