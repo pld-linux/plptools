@@ -2,7 +2,7 @@ Summary:	Connectivity for Psion series 5.
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
 Version:	0.14
-Release:	0.1
+Release:	0.2
 License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
@@ -26,6 +26,7 @@ BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
 BuildRequires:	newt-devel
 BuildRequires:	perl-base
+BuildRequires:	python
 BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	sed >= 4.0
@@ -229,6 +230,7 @@ export ACLOCALFLAGS="-I conf/m4/plptools -I conf/m4/kde"
 	--with-initdir=/etc/rc.d/init.d \
 	--with-kdedir=/usr \
 	--with-mountdir=/media/psion \
+	--with-serial=/dev/ttyS0 \
 	--x-libraries=/usr/X11R6/%{_lib} \
 	%{?debug:--enable-debug}
 
@@ -286,7 +288,7 @@ install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}/plpftp.desktop
 rm -f $RPM_BUILD_ROOT%{_datadir}/doc/kde/HTML/{en,de,pl}/kpsion/index.docbook.in
 
 # No public headers for these libs, only used internally
-rm -f $RPM_BUILD_ROOT%{_libdir}/{libkpsion,klipsi}.{a,la,so}
+rm -f $RPM_BUILD_ROOT%{_libdir}/{klipsi}.{a,la,so}
 
 %find_lang %{name}
 %find_lang libplpprops
@@ -310,6 +312,9 @@ if [ -f /var/lock/subsys/psion_was_started ]; then
 fi
 rm -f /var/lock/subsys/psion_was_started
 
+%triggerin kde -- kdebase, kde-i18n-German
+perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
+
 %triggerin kde -- kdebase, kde-i18n-Polish
 perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
@@ -325,11 +330,10 @@ fi
 KONQRC=`kde-config --expandvars --install config`/konquerorrc
 if test -f $KONQRC && grep -q '\[Notification Messages\]' $KONQRC ; then
 	cp $KONQRC $KONQRC.$$
-	cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=No" | sed \
-		-e '/\[Notification Messages\]/a\' \
+	cat $KONQRC.$$ | grep -v "askSaveinode/x-psion-drive=" | sed \
+		-e '/\[Notification Messages\]/a' \
 		-e 'askSaveinode/x-psion-drive=No' > $KONQRC && \
 	rm -f $KONQRC.$$
-#vim: '
 else
 cat>>$KONQRC<<EOF
 
@@ -396,7 +400,7 @@ fi
 %files -n kpsion -f kpsion.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kpsion
-#%attr(755,root,root) %{_libdir}/libkpsion.so.*
+%attr(755,root,root) %{_libdir}/libkpsion.so
 %{_desktopdir}/kpsion*
 %{_datadir}/apps/kpsion
 %{_datadir}/apps/konqueror/*
