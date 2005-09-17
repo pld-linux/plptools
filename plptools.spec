@@ -2,7 +2,7 @@ Summary:	Connectivity for Psion series 5.
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
 Version:	0.14
-Release:	0.2
+Release:	1
 License:	GPL
 Vendor:		The plptools project
 Group:		Networking/Utilities
