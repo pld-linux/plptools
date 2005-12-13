@@ -1,4 +1,4 @@
-Summary:	Connectivity for Psion series 5.
+Summary:	Connectivity for Psion series 5
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
 Version:	0.14
@@ -20,10 +20,10 @@ URL:		http://plptools.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	fam-devel
-BuildRequires:	kdelibs-devel >= 9:3.2.0
 BuildRequires:	gettext-devel
-BuildRequires:	libtool
+BuildRequires:	kdelibs-devel >= 9:3.2.0
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
 BuildRequires:	newt-devel
 BuildRequires:	perl-base
 BuildRequires:	python
@@ -31,18 +31,18 @@ BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(macros) >= 1.129
 BuildRequires:	sed >= 4.0
 BuildRequires:	unsermake >= 040805
-PreReq:		rc-scripts
 Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This package contains the programs (client and server), necessary to
 communicate with a Psion palmtop. The psion's file-system will be
-automatically mounted under /media/psion at the time it is connected to
-your computer. If the psion is shut down or disconnected, the contents
-of /media/psion will automatically disappear. Other programs included
-are:
+automatically mounted under /media/psion at the time it is connected
+to your computer. If the psion is shut down or disconnected, the
+contents of /media/psion will automatically disappear. Other programs
+included are:
 - plpftp, a program which allows you to transfer files in a FTP-like
   manner, view and modifiy processes on your psion.
 - plpbackup, a backup/restore utility.
@@ -69,10 +69,10 @@ enthalten:
 %description -l pl
 Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
 komunikacji z palmtopami Psiona (seria 5). System plików Psiona bêdzie
-automatycznie mountowany w katalogu /media/psion w momencie po³o¿enia na
-podstawce (craddle). Je¶li Psion zostanie wy³±czony albo roz³±czony,
-zawarto¶æ /media/psion automatycznie zniknie. Programy zawarte w
-pakiecie:
+automatycznie mountowany w katalogu /media/psion w momencie po³o¿enia
+na podstawce (craddle). Je¶li Psion zostanie wy³±czony albo
+roz³±czony, zawarto¶æ /media/psion automatycznie zniknie. Programy
+zawarte w pakiecie:
 - plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
   FTP na transfer plików, przegl±danie i modyfikacjê procesów
   dzia³aj±cych na Psionie,
@@ -125,10 +125,10 @@ serii 5.
 Summary:	Psion support for KDE
 Summary(pl):	Obs³uga Psiona w KDE
 Group:		Applications/Communications
-Requires:	%{name} = %{version}-%{release}
 Requires(preun):	/usr/bin/perl
 Requires(preun):	fileutils
 Requires(preun):	grep
+Requires:	%{name} = %{version}-%{release}
 
 %description kde
 This package provides support for a new protocol prefix "psion:/" for
@@ -258,7 +258,7 @@ rm -f doc/api/Makefile*
 
 install conf/kiodoc-update.pl \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/kiodoc-update.pl
-install -m755 %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/psion
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/psion
 
 cat>$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/psion<<EOF
 #
@@ -365,7 +365,7 @@ fi
 %{_desktopdir}/plpftp*
 %exclude %{_datadir}/%{name}/kiodoc-update.pl
 %attr(754,root,root) /etc/rc.d/init.d/psion
-%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/psion
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/psion
 %{_mandir}/*/*
 %dir /media/psion
 %dir /var/spool/plpprint
