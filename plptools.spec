@@ -277,7 +277,6 @@ START_PLPPRINTD=no
 PLPPRINTD_ARGS=
 EOF
 
-install -d $RPM_BUILD_ROOT/media/psion
 install -d $RPM_BUILD_ROOT%{_desktopdir}/kde
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/kde/klipsi.desktop
@@ -300,6 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add psion
+install -d /media/psion >/dev/null 2>&1 || :
 %service psion restart
 
 %triggerin kde -- kdebase, kde-i18n-German
@@ -357,7 +357,6 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/psion
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/psion
 %{_mandir}/*/*
-%dir /media/psion
 %dir /var/spool/plpprint
 
 %files devel
