@@ -4,7 +4,6 @@ Name:		plptools
 Version:	0.14
 Release:	1
 License:	GPL
-Vendor:		The plptools project
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
 # Source0-md5:	728902c3bfc44de175cb59256f3283a5
@@ -28,7 +27,7 @@ BuildRequires:	newt-devel
 BuildRequires:	perl-base
 BuildRequires:	python
 BuildRequires:	readline-devel
-BuildRequires:	rpmbuild(macros) >= 1.129
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
 BuildRequires:	unsermake >= 040805
 Requires(post):	/sbin/ldconfig
@@ -298,19 +297,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/{klipsi}.{a,la,so}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
-if [ "$1" != "0" -a -f /var/lock/subsys/psion ]; then
-	/etc/rc.d/init.d/psion stop >&2
-	touch /var/lock/subsys/psion_was_started
-fi
-
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add psion
-if [ -f /var/lock/subsys/psion_was_started ]; then
-	/etc/rc.d/init.d/psion start >&2
-fi
-rm -f /var/lock/subsys/psion_was_started
+%service psion restart
 
 %triggerin kde -- kdebase, kde-i18n-German
 perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
@@ -320,7 +310,7 @@ perl %{_datadir}/%{name}/kiodoc-update.pl -a psion
 
 %preun
 if [ "$1" = "0" ]; then
-	/etc/rc.d/init.d/psion stop >&2
+	%service psion stop
 	/sbin/chkconfig --del psion
 fi
 
