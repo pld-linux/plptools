@@ -1,12 +1,12 @@
 Summary:	Connectivity for Psion series 5
 Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
 Name:		plptools
-Version:	0.14
+Version:	0.15
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://dl.sourceforge.net/plptools/%{name}-%{version}.tar.gz
-# Source0-md5:	728902c3bfc44de175cb59256f3283a5
+# Source0-md5:	0fc1bf07e93620898a501e54f965b8dd
 Source1:	%{name}.init
 Source2:	http://ep09.pld-linux.org/~djurban/kde/kde-common-admin.tar.bz2
 # Source2-md5:	81e0b2f79ef76218381270960ac0f55f
