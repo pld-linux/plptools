@@ -1,5 +1,5 @@
 Summary:	Connectivity for Psion series 5
-Summary(pl):	Narzêdzia do obs³ugi psionów serii 5 pod Linuksem
+Summary(pl.UTF-8):   NarzÄ™dzia do obsÅ‚ugi psionÃ³w serii 5 pod Linuksem
 Name:		plptools
 Version:	0.15
 Release:	1
@@ -49,42 +49,42 @@ included are:
   any accessible printer.
 - sisinstall, an installer for Psion's SIS software package format.
 
-%description -l de
-Dieses Packet enthält Programme zur Kommunikation mit einem Psion
-Palmtop. Das Dateisystem des Psion wird beim Anschließen automatisch
-unter /media/psion eingehängt. Wird der Psion ausgeschaltet oder das
+%description -l de.UTF-8
+Dieses Packet enthÃ¤lt Programme zur Kommunikation mit einem Psion
+Palmtop. Das Dateisystem des Psion wird beim AnschlieÃŸen automatisch
+unter /media/psion eingehÃ¤ngt. Wird der Psion ausgeschaltet oder das
 Kabel gezogen, so verschwindet der Inhalt dieses Verzeichnisses
-automatisch und erscheint erneuten Anschließen wieder. Weiterhin sind
+automatisch und erscheint erneuten AnschlieÃŸen wieder. Weiterhin sind
 enthalten:
-- plpftp, ein Programm welches eine FTP-ähnliche Oberfläche für
+- plpftp, ein Programm welches eine FTP-Ã¤hnliche OberflÃ¤che fÃ¼r
   Dateitransfer bietet und Prozesse auf dem Psion stoppen und starten
   kann.
-- plpbackup, ein Backup/Restore Utility für die Kommandozeile.
+- plpbackup, ein Backup/Restore Utility fÃ¼r die Kommandozeile.
 - plpprintd, ein Daemon welcher Ausdrucken von einem Psion Serie 5
-  über beliebige vefügbare Drucker ermöglicht
-- sisinstall, ein Installationsprogramm für das Psion-eigene SIS
+  Ã¼ber beliebige vefÃ¼gbare Drucker ermÃ¶glicht
+- sisinstall, ein Installationsprogramm fÃ¼r das Psion-eigene SIS
   packetformat.
 
-%description -l pl
+%description -l pl.UTF-8
 Ten pakiet zawiera programy (klient i serwer) potrzebne do zapewnienia
-komunikacji z palmtopami Psiona (seria 5). System plików Psiona bêdzie
-automatycznie mountowany w katalogu /media/psion w momencie po³o¿enia
-na podstawce (craddle). Je¶li Psion zostanie wy³±czony albo
-roz³±czony, zawarto¶æ /media/psion automatycznie zniknie. Programy
+komunikacji z palmtopami Psiona (seria 5). System plikÃ³w Psiona bÄ™dzie
+automatycznie mountowany w katalogu /media/psion w momencie poÅ‚oÅ¼enia
+na podstawce (craddle). JeÅ›li Psion zostanie wyÅ‚Ä…czony albo
+rozÅ‚Ä…czony, zawartoÅ›Ä‡ /media/psion automatycznie zniknie. Programy
 zawarte w pakiecie:
-- plpftp - program umo¿liwiaj±cy w sposób zbli¿ony do dzia³ania us³ugi
-  FTP na transfer plików, przegl±danie i modyfikacjê procesów
-  dzia³aj±cych na Psionie,
-- plpbackup - narzêdzie do robienia kopii zapasowych (i ich
+- plpftp - program umoÅ¼liwiajÄ…cy w sposÃ³b zbliÅ¼ony do dziaÅ‚ania usÅ‚ugi
+  FTP na transfer plikÃ³w, przeglÄ…danie i modyfikacjÄ™ procesÃ³w
+  dziaÅ‚ajÄ…cych na Psionie,
+- plpbackup - narzÄ™dzie do robienia kopii zapasowych (i ich
   przywracania),
-- plpprintd - demon umo¿liwiaj±cy drukowanie z Psiona na dowolnej
-  dostêpnej w systemie drukarce,
-- sisinstall - narzêdzie umo¿liwiaj±ce instalacjê oprogramowania
-  dostêpnego w formacie SIS.
+- plpprintd - demon umoÅ¼liwiajÄ…cy drukowanie z Psiona na dowolnej
+  dostÄ™pnej w systemie drukarce,
+- sisinstall - narzÄ™dzie umoÅ¼liwiajÄ…ce instalacjÄ™ oprogramowania
+  dostÄ™pnego w formacie SIS.
 
 %package devel
 Summary:	Header files for psion series 5 communication
-Summary(pl):	Pliki nag³ówkowe dla komunikacji z psionami serii 5
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe dla komunikacji z psionami serii 5
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -92,17 +92,17 @@ Requires:	%{name} = %{version}-%{release}
 This package contains the header files for building programs which can
 communicate with a Psion palmtop.
 
-%description devel -l de
-Dieses Packet enthält die include-Dateien zur Programm-Entwicklung von
-Kommunikations-software für den Psion.
+%description devel -l de.UTF-8
+Dieses Packet enthÃ¤lt die include-Dateien zur Programm-Entwicklung von
+Kommunikations-software fÃ¼r den Psion.
 
-%description devel -l pl
-Ten pakiet zawiera pliki nag³ówkowe do budowania programów, które mog±
-siê komunikowaæ z palmtopami Psion serii 5.
+%description devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagÅ‚Ã³wkowe do budowania programÃ³w, ktÃ³re mogÄ…
+siÄ™ komunikowaÄ‡ z palmtopami Psion serii 5.
 
 %package static
 Summary:	Static library for Psion series 5 communication
-Summary(pl):	Statyczna biblioteka do komunikacji z psionami serii 5
+Summary(pl.UTF-8):   Statyczna biblioteka do komunikacji z psionami serii 5
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -110,19 +110,19 @@ Requires:	%{name}-devel = %{version}-%{release}
 This package contains the static library for building statically
 linked programs which can communicate with a Psion palmtop.
 
-%description static -l de
-Dieses Packet enthält die statische Bibliothek zur
-Programm-Entwicklung von Kommunikations-software für den Psion.
+%description static -l de.UTF-8
+Dieses Packet enthÃ¤lt die statische Bibliothek zur
+Programm-Entwicklung von Kommunikations-software fÃ¼r den Psion.
 
-%description static -l pl
+%description static -l pl.UTF-8
 
 Ten pakiet zawiera statyczne biblioteki do budowania konsolidowanych
-statycznie programów, które mog± siê komunikowaæ z palmtopami Psion
+statycznie programÃ³w, ktÃ³re mogÄ… siÄ™ komunikowaÄ‡ z palmtopami Psion
 serii 5.
 
 %package kde
 Summary:	Psion support for KDE
-Summary(pl):	Obs³uga Psiona w KDE
+Summary(pl.UTF-8):   ObsÅ‚uga Psiona w KDE
 Group:		Applications/Communications
 Requires(preun):	/usr/bin/perl
 Requires(preun):	fileutils
@@ -137,25 +137,25 @@ file-properties dialog provides access to Psions proprietary file
 attributes and information about the Psion's drives as well as generic
 machine information.
 
-%description kde -l de
-Dieses Packet stellt Unterstützung für eine neues Protokoll-Präfix
-"psion:/" für KDE bereit. Jede KDE Anwendung, die KDE-konforme URLs
+%description kde -l de.UTF-8
+Dieses Packet stellt UnterstÃ¼tzung fÃ¼r eine neues Protokoll-PrÃ¤fix
+"psion:/" fÃ¼r KDE bereit. Jede KDE Anwendung, die KDE-konforme URLs
 benutzt, kann damit auf die Dateien eines Psion zugreifen. Weiterhin,
-liefert ein Plugin für Konqueror's Datei-Eigenschaften-Dialog
-Informationen über proprietäre Psion-Dateiattribute und stellt
-Informationen zum Gerät sowie seiner Laufwerke zur Verfügung.
+liefert ein Plugin fÃ¼r Konqueror's Datei-Eigenschaften-Dialog
+Informationen Ã¼ber proprietÃ¤re Psion-Dateiattribute und stellt
+Informationen zum GerÃ¤t sowie seiner Laufwerke zur VerfÃ¼gung.
 
-%description kde -l pl
-Ten pakiet dodaje obs³ugê dla nowego protoko³u "psion:/" dla
-¶rodowiska KDE. Dowolna aplikacja KDE, która u¿ywa zgodnych z KDE
-adresów URL, mo¿e uzyskiwaæ dostêp do plików na Psionie. Ponadto
-wtyczka dla okienka w³a¶ciwo¶ci Konquerora daje mo¿liwo¶æ korzystania
-z natywnych dla Psiona atrybutów systemu plików, informacji o dyskach
-Psiona, a tak¿e ogólnych informacji o palmtopie.
+%description kde -l pl.UTF-8
+Ten pakiet dodaje obsÅ‚ugÄ™ dla nowego protokoÅ‚u "psion:/" dla
+Å›rodowiska KDE. Dowolna aplikacja KDE, ktÃ³ra uÅ¼ywa zgodnych z KDE
+adresÃ³w URL, moÅ¼e uzyskiwaÄ‡ dostÄ™p do plikÃ³w na Psionie. Ponadto
+wtyczka dla okienka wÅ‚aÅ›ciwoÅ›ci Konquerora daje moÅ¼liwoÅ›Ä‡ korzystania
+z natywnych dla Psiona atrybutÃ³w systemu plikÃ³w, informacji o dyskach
+Psiona, a takÅ¼e ogÃ³lnych informacji o palmtopie.
 
 %package -n kpsion
 Summary:	Psion utility for KDE
-Summary(pl):	Narzêdzia do obs³ugi Psiona pod KDE
+Summary(pl.UTF-8):   NarzÄ™dzia do obsÅ‚ugi Psiona pod KDE
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
 
@@ -163,17 +163,17 @@ Requires:	%{name} = %{version}-%{release}
 This package contains a KDE utility program for backup, restore and
 formatting Psion drives.
 
-%description -n kpsion -l de
-Dieses Packet enthält ein KDE Werkzeug zum Backup, Restore und
+%description -n kpsion -l de.UTF-8
+Dieses Packet enthÃ¤lt ein KDE Werkzeug zum Backup, Restore und
 Formatieren von Psion Laufwerken.
 
-%description -n kpsion -l pl
-Ten pakiet zawiera narzêdzia dla KDE do robienia i odzyskiwania kopii
-zapasowych, a tak¿e do formatowania dysków Psiona.
+%description -n kpsion -l pl.UTF-8
+Ten pakiet zawiera narzÄ™dzia dla KDE do robienia i odzyskiwania kopii
+zapasowych, a takÅ¼e do formatowania dyskÃ³w Psiona.
 
 %package -n klipsi
 Summary:	Psion remote clipboard utility for KDE
-Summary(pl):	Us³uga zdalnego schowka dla Psiona w KDE
+Summary(pl.UTF-8):   UsÅ‚uga zdalnego schowka dla Psiona w KDE
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
 
@@ -181,16 +181,16 @@ Requires:	%{name} = %{version}-%{release}
 This package contains a KDE utility for using the Psion's remote
 clipboard function.
 
-%description -n klipsi -l de
-Dieses Packet enthält ein KDE Werkzeug zum Transfer der Zwischenablage
+%description -n klipsi -l de.UTF-8
+Dieses Packet enthÃ¤lt ein KDE Werkzeug zum Transfer der Zwischenablage
 zwischen Psion und Rechner.
 
-%description -n klipsi -l pl
-Ten pakiet zapewnia mo¿liwo¶æ korzystania w KDE z narzêdzi
-obs³uguj±cych zdalny schowek w Psionie. To co zaznaczysz w KDE, mo¿esz
-w Psionie wkleiæ przez ^V, a co w psionie skopiujesz przez ^C, mo¿esz
-w kde wklejaæ przez kombinacjê ^C, czyli CTRL-C ;-) Miodna sprawa do
-szybkiego zabierania informacji "ze sob±" :).
+%description -n klipsi -l pl.UTF-8
+Ten pakiet zapewnia moÅ¼liwoÅ›Ä‡ korzystania w KDE z narzÄ™dzi
+obsÅ‚ugujÄ…cych zdalny schowek w Psionie. To co zaznaczysz w KDE, moÅ¼esz
+w Psionie wkleiÄ‡ przez ^V, a co w psionie skopiujesz przez ^C, moÅ¼esz
+w kde wklejaÄ‡ przez kombinacjÄ™ ^C, czyli CTRL-C ;-) Miodna sprawa do
+szybkiego zabierania informacji "ze sobÄ…" :).
 
 %prep
 %setup -q
