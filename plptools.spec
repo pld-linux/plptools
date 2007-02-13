@@ -1,5 +1,5 @@
 Summary:	Connectivity for Psion series 5
-Summary(pl.UTF-8):   Narzędzia do obsługi psionów serii 5 pod Linuksem
+Summary(pl.UTF-8):	Narzędzia do obsługi psionów serii 5 pod Linuksem
 Name:		plptools
 Version:	0.15
 Release:	1
@@ -84,7 +84,7 @@ zawarte w pakiecie:
 
 %package devel
 Summary:	Header files for psion series 5 communication
-Summary(pl.UTF-8):   Pliki nagłówkowe dla komunikacji z psionami serii 5
+Summary(pl.UTF-8):	Pliki nagłówkowe dla komunikacji z psionami serii 5
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -102,7 +102,7 @@ się komunikować z palmtopami Psion serii 5.
 
 %package static
 Summary:	Static library for Psion series 5 communication
-Summary(pl.UTF-8):   Statyczna biblioteka do komunikacji z psionami serii 5
+Summary(pl.UTF-8):	Statyczna biblioteka do komunikacji z psionami serii 5
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -122,7 +122,7 @@ serii 5.
 
 %package kde
 Summary:	Psion support for KDE
-Summary(pl.UTF-8):   Obsługa Psiona w KDE
+Summary(pl.UTF-8):	Obsługa Psiona w KDE
 Group:		Applications/Communications
 Requires(preun):	/usr/bin/perl
 Requires(preun):	fileutils
@@ -155,7 +155,7 @@ Psiona, a także ogólnych informacji o palmtopie.
 
 %package -n kpsion
 Summary:	Psion utility for KDE
-Summary(pl.UTF-8):   Narzędzia do obsługi Psiona pod KDE
+Summary(pl.UTF-8):	Narzędzia do obsługi Psiona pod KDE
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
 
@@ -173,7 +173,7 @@ zapasowych, a także do formatowania dysków Psiona.
 
 %package -n klipsi
 Summary:	Psion remote clipboard utility for KDE
-Summary(pl.UTF-8):   Usługa zdalnego schowka dla Psiona w KDE
+Summary(pl.UTF-8):	Usługa zdalnego schowka dla Psiona w KDE
 Group:		Applications/Communications
 Requires:	%{name} = %{version}-%{release}
 
