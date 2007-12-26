@@ -1,6 +1,5 @@
 [Desktop Entry]
 Type=Application
-Encoding=UTF-8
 Name=plpftp
 Name[pl]=plpftp
 Exec=plpftp
