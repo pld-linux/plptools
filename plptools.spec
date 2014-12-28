@@ -19,7 +19,7 @@ URL:		http://plptools.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	fam-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	kdelibs-devel >= 9:3.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
