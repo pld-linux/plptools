@@ -197,8 +197,8 @@ szybkiego zabierania informacji "ze sobą" :).
 rm -rf conf/CVS
 ln -s conf admin
 tar -jxf %{SOURCE2}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 install kde2/doc/en/*.png kde2/doc/pl
 
 sed -n '/u_int64_t/!p' \
